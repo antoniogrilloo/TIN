@@ -12,8 +12,6 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input type="text" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
-
         <!--div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -34,21 +32,17 @@
 </nav>
 
 <div id="main">
-    <h1 class="text">Benvenuto</h1>
+    <h1 class="text">Registrazione</h1>
 </div>
 
-<div class="formModPercCard">
-    <form class="float elForm" method="POST">
-        <label class="text1Form">Username: </label>
-        <br>
-        <input type="text" class="form-control elForm" name="username" th:required="required" placeholder="Username">
-        <label class="text1Form">Password:</label>
-        <br>
-        <input type="text" class="form-control elForm" name="password" th:required="required" placeholder="Password">
-        <br>
-        <button type="submit" class="btn btn-primary submit">Accedi</button><br>
-        <a class="textDesc" style="font-size: medium" th:href="@{/registrazione}">Registrazione?</a>
-    </form>
+<div class="scrollable">
+    <div class="card">
+        <p>Registrazione avvenuta.</p>
+        <p class="textPerc">Effettua il <a href="/" style="color:green">login</a> per accedere.</p>
+    </div>
 </div>
+
+<br><br><br><br><br>
+
 </body>
 </html>

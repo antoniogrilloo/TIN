@@ -54,12 +54,17 @@ public class RegistrazioneController {
         } catch (CartaDiCreditoException | AccountException e) {
             return new RedirectView("/error");
         }
-        return new RedirectView("/");
+        return new RedirectView("/confirm");
     }
 
     @GetMapping("/error")
     public ModelAndView error() {
         return new ModelAndView("/error");
+    }
+
+    @GetMapping("/confirm")
+    public ModelAndView confirmRegistration() {
+        return new ModelAndView("registrazioneAvvenuta");
     }
 
 }
