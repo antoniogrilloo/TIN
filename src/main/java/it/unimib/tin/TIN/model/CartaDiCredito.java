@@ -16,11 +16,10 @@ public class CartaDiCredito {
     @JoinColumn(name = "u_id")
     private UtenteAutenticato utente;
 
-    public CartaDiCredito(String numero, String cvv, String nomeProprietario, UtenteAutenticato utente) {
+    public CartaDiCredito(String numero, String cvv, String nomeProprietario) {
         this.numero = numero;
         this.cvv = cvv;
         this.nomeProprietario = nomeProprietario;
-        this.utente = utente;
     }
 
     public CartaDiCredito() {

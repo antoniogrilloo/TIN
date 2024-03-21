@@ -1,0 +1,245 @@
+
+body{
+    background-color: #2e2e36;
+    width: auto;
+    height: auto;
+}
+
+.scrollable{
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-bottom: 3%;
+    margin-top: 1%;
+}
+
+nav{
+    height:15%;
+}
+
+.deleteSub{
+    display:inline-block;
+    width:30px;
+}
+
+.deleteButt{
+    background-color: #dc3545;
+    border-width:0;
+    border-radius: 20px;
+    width:60px;
+    height:60px;
+    font-size:30px;
+    color: #fff;
+}
+
+.modifyButt{
+    background-color: #6c757d;
+    border-width:0;
+    border-radius: 20px;
+    width:60px;
+    height:60px;
+    font-size:30px;
+    color: #fff;
+}
+
+.tabCic{
+    width:100%;
+}
+
+.tdSfida{
+    width:93%;
+}
+
+.tdPercorso{
+    width:86%;
+}
+
+.tdForm{
+    width:7%;
+    text-align:center;
+}
+
+.card{
+    border-radius: 20px;
+    width: 100%;
+    font-family: verdana;
+    text-align: center;
+    font-size:25px;
+    font-weight: 600;
+}
+
+.table{
+    width:100%;
+}
+
+.formCard{
+    margin-right: 70%;
+    margin-left: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-bottom: 2%;
+    font-family: verdana;
+    text-align: center;
+    font-size:15px;
+}
+.formModPercCard{
+    margin-left: 10%;
+    padding-left: 0%;
+    padding-right: 6%;
+    background-color: #fff;
+    border-radius: 20px;
+    font-family: verdana;
+    text-align: center;
+    font-size:25px;
+    font-weight: 600;
+    background-color: #2e2e36;
+}
+.formCardRicPerc{
+    margin-left: 10%;
+    padding-left: 0%;
+    padding-right: 6%;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-bottom: 2%;
+    font-family: verdana;
+    text-align: center;
+    font-size:25px;
+    font-weight: 600;
+    background-color: #2e2e36;
+}
+
+.text{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    font-size:55px;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+
+.text1{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+    padding-left: 10%;
+}
+
+.textNorm{
+    text-transform: none;
+    font-size:20px;
+    padding-left: 10%;
+}
+
+.text1Form{
+    text-align: left;
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+
+.text2{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+
+.textBday{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+    padding-left: 10%;
+    margin-bottom: 3%;
+    margin-top: 2.5%;
+}
+.textSottoTit{
+    text-align: left;
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+    padding-left: 10%;
+}
+.textPerc{
+    font-family: verdana;
+    font-weight: 400;
+    font-size:15px;
+}
+
+#main{
+    padding-top: 2%;
+    padding-left: 10%;
+    display: flex;
+    align-items:center;
+}
+
+a.card{
+    color:#000000;
+    text-decoration: none;
+}
+
+
+a{
+    color:#000000;
+    text-decoration: none;
+    text-align:center;
+}
+
+.bott{
+    margin-left:3%;
+}
+
+.hidden{
+    height: 0px;
+}
+
+.float{
+    margin-top:2.5%;
+}
+
+.submitDisc{
+    margin-top:7%;
+    font-weight: 700;
+}
+.submit{
+    font-weight: 700;
+}
+
+.noFog{
+    text-shadow:none;
+    font-family:verdana;
+}
+.col{
+    padding:0 15px 0 0;
+}
+
+.textLeft{
+    text-align: left;
+}
+
+.btnHome{
+    padding-top:20px;
+    padding-bottom:20px;
+    margin-bottom:10px;
+}
+
+.elForm{
+    width: 340px;
+    text-align:left;
+}
+
+.textDesc{
+    color: white;
+}

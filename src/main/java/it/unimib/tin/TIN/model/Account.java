@@ -10,8 +10,10 @@ public class Account {
     @Column(name = "account_id")
     private Long id;
 
+    @Column(unique = true)
     private String username;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -24,7 +26,7 @@ public class Account {
 
     }
 
-    public Account(Long id, String username, String email, String password) {
+    public Account(String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -57,5 +59,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UtenteAutenticato getUser() {
+        return user;
+    }
+
+    public void setUser(UtenteAutenticato user) {
+        this.user = user;
     }
 }

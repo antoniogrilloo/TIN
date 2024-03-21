@@ -1,6 +1,7 @@
 package it.unimib.tin.TIN.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,6 +17,8 @@ public class UtenteAutenticato {
 
     private String cognome;
 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date nascita;
 
     private String indirizzo;
@@ -28,15 +31,11 @@ public class UtenteAutenticato {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public UtenteAutenticato(Long id, String nome, String cognome, Date nascita, String indirizzo, CartaDiCredito cc,
-                             Account account) {
-        this.id = id;
+    public UtenteAutenticato(String nome, String cognome, Date nascita, String indirizzo) {
         this.nome = nome;
         this.cognome = cognome;
         this.nascita = nascita;
         this.indirizzo = indirizzo;
-        this.cc = cc;
-        this.account = account;
     }
 
     public UtenteAutenticato() {
@@ -85,5 +84,13 @@ public class UtenteAutenticato {
 
     public void setCc(CartaDiCredito cc) {
         this.cc = cc;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

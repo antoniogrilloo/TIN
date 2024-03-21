@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/mystyle.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">TIN</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Ciclisti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bici">Bici</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ricercaPercorso}">Cerca percorso</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/gestioneCitta}">Gestione citta</a>
+                </li>
+            </ul>
+        </div-->
+    </div>
+</nav>
+
+<div id="main">
+    <h1 class="text">Registrazione</h1>
+</div>
+
+<div class="formModPercCard">
+    <form class="float elForm" method="POST" th:action="@{/registrazione}">
+        <h3 class="textDesc">Dati anagrafici</h3><br>
+        <label class="text1Form">Nome: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="nome" th:required="required" placeholder="Nome">
+        <label class="text1Form">Cognome: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="cognome" th:required="required" placeholder="Cognome">
+        <label class="text1Form">Data di nascita: </label>
+        <br>
+        <input type="date" class="form-control date elForm" name="nascita" th:required="required" min="1900-01-01" max="2100-12-31">
+        <label class="text1Form">Indirizzo: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="indirizzo" th:required="required" placeholder="Indirizzo">
+        <br><br>
+        <h3 class="textDesc">Dati di pagamento</h3><br>
+        <label class="text1Form">Numero carta di credito: </label>
+        <br>
+        <input id="ccn" class="form-control elForm" name="ccn" th:required="required" type="tel" inputmode="numeric"
+               pattern="[0-9\s]{13,19}"
+               autocomplete="cc-number" maxlength="19"
+               placeholder="xxxx xxxx xxxx xxxx" required>
+        <label class="text1Form">CVV: </label>
+        <br>
+        <input type="tel" class="form-control elForm" name="cvv" th:required="required" placeholder="xxx" autocomplete="cvv" maxlength="3" pattern="([0-9]|[0-9]|[0-9])">
+        <label class="text1Form">Proprietario carta: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="proprietario" th:required="required" placeholder="Proprietario">
+        <br><br>
+        <h3 class="textDesc">Dati account</h3><br>
+        <label class="text1Form">Email: </label>
+        <br>
+        <input type="email" class="form-control elForm" name="email" th:required="required" placeholder="Email">
+        <label class="text1Form">Username: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="username" th:required="required" placeholder="Username">
+        <label class="text1Form">Password:</label>
+        <br>
+        <input type="password" class="form-control elForm" name="password" th:required="required" placeholder="Password">
+        <br>
+        <button type="submit" class="btn btn-primary submit">Registrati</button>
+    </form>
+</div>
+
+
+
+
+<br><br><br><br><br>
+
+</body>
+</html>
