@@ -1,6 +1,12 @@
 package it.unimib.tin.TIN.model;
 
+import it.unimib.tin.TIN.exception.AccountException;
 import jakarta.persistence.*;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 public class Account {
@@ -26,11 +32,10 @@ public class Account {
 
     }
 
-    public Account(String username, String email, String password) {
-        this.id = id;
+    public Account(String username, String email, String password) throws AccountException {
         this.username = username;
-        this.email = email;
-        this.password = password;
+        this.setEmail(email);
+        this.setPassword(password);
     }
 
     public Long getId() {
@@ -49,7 +54,12 @@ public class Account {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws AccountException {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches())
+            throw new AccountException();
         this.email = email;
     }
 
@@ -58,6 +68,19 @@ public class Account {
     }
 
     public void setPassword(String password) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        digest.update(password.getBytes());
+        byte[] hashedBytes = digest.digest();
+        StringBuilder sb = new StringBuilder();
+        for(byte b : hashedBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        password = sb.toString();
         this.password = password;
     }
 

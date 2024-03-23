@@ -59,7 +59,7 @@ public class RegistrazioneController {
 
     @GetMapping("/error")
     public ModelAndView error() {
-        return new ModelAndView("/error");
+        return new ModelAndView("error");
     }
 
     @GetMapping("/confirm")

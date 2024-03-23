@@ -51,32 +51,9 @@ public class RegistraUtenteForm {
     }
 
     public CartaDiCredito getCC() throws CartaDiCreditoException {
-        if (ccn.length() != 16 || cvv.length() != 3)
-            throw new CartaDiCreditoException();
-        if (!ccn.matches("[0-9]+") || !cvv.matches("[0-9]+"))
-            throw new CartaDiCreditoException();
-        CartaDiCredito cc = new CartaDiCredito(ccn, cvv, proprietario);
-        return cc;
+        return new CartaDiCredito(ccn, cvv, proprietario);
     }
     public Account getAccount() throws AccountException {
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches())
-            throw new AccountException();
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(password.getBytes());
-            byte[] hashedBytes = digest.digest();
-            StringBuilder sb = new StringBuilder();
-            for(byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            password = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        Account a = new Account(username, email, password);
-        return a;
+        return new Account(username, email, password);
     }
 }

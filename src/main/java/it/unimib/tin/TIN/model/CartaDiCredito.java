@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN.model;
 
+import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,9 +17,9 @@ public class CartaDiCredito {
     @JoinColumn(name = "u_id")
     private UtenteAutenticato utente;
 
-    public CartaDiCredito(String numero, String cvv, String nomeProprietario) {
-        this.numero = numero;
-        this.cvv = cvv;
+    public CartaDiCredito(String numero, String cvv, String nomeProprietario) throws CartaDiCreditoException {
+        this.setNumero(numero);
+        this.setCvv(cvv);
         this.nomeProprietario = nomeProprietario;
     }
 
@@ -30,7 +31,9 @@ public class CartaDiCredito {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(String numero) throws CartaDiCreditoException {
+        if (numero.length() != 16 || !numero.matches("[0-9]+"))
+            throw new CartaDiCreditoException();
         this.numero = numero;
     }
 
@@ -38,7 +41,9 @@ public class CartaDiCredito {
         return cvv;
     }
 
-    public void setCvv(String cvv) {
+    public void setCvv(String cvv) throws CartaDiCreditoException {
+        if (cvv.length() != 3 || !cvv.matches("[0-9]+"))
+            throw new CartaDiCreditoException();
         this.cvv = cvv;
     }
 
