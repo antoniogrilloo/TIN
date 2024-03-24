@@ -2,6 +2,7 @@ package it.unimib.tin.TIN.model;
 
 import it.unimib.tin.TIN.exception.AccountException;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -68,20 +69,8 @@ public class Account {
     }
 
     public void setPassword(String password) {
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        digest.update(password.getBytes());
-        byte[] hashedBytes = digest.digest();
-        StringBuilder sb = new StringBuilder();
-        for(byte b : hashedBytes) {
-            sb.append(String.format("%02x", b));
-        }
-        password = sb.toString();
-        this.password = password;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
     }
 
     public UtenteAutenticato getUser() {

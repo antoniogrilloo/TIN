@@ -30,7 +30,7 @@ public class RegistrazioneController {
         this.ccrepo = ccrepo;
     }
 
-    @GetMapping("/")
+    @RequestMapping("/")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("index");
@@ -65,6 +65,11 @@ public class RegistrazioneController {
     @GetMapping("/confirm")
     public ModelAndView confirmRegistration() {
         return new ModelAndView("registrazioneAvvenuta");
+    }
+
+    @GetMapping("/protected")
+    public ModelAndView homepage() {
+        return new ModelAndView("homepage");
     }
 
 }

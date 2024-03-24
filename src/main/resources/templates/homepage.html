@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>TIN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -34,28 +34,11 @@
 </nav>
 
 <div id="main">
-    <h1 class="text">Benvenuto</h1>
-</div>
-
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-
-<div class="formModPercCard">
-    <form class="float elForm" th:action="@{/}" method="POST">
-        <label class="text1Form">Username: </label>
-        <br>
-        <input type="text" class="form-control elForm" name="username" th:required="required" placeholder="Username">
-        <label class="text1Form">Password:</label>
-        <br>
-        <input type="text" class="form-control elForm" name="password" th:required="required" placeholder="Password">
-        <br>
-        <button type="submit" class="btn btn-primary submit">Accedi</button><br>
-        <a class="textDesc" style="font-size: medium" th:href="@{/registrazione}">Registrazione?</a>
+    <h1 class="text">Benvenuto <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1><br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
     </form>
 </div>
+
 </body>
 </html>
