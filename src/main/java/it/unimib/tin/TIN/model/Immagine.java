@@ -38,4 +38,12 @@ public class Immagine {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Prodotto getProdotto() {
+        return prodotto;
+    }
+
+    public void setProdotto(Prodotto prodotto) {
+        this.prodotto = prodotto;
+    }
 }

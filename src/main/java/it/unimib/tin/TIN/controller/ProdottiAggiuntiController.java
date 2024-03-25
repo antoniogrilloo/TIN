@@ -1,14 +1,30 @@
 package it.unimib.tin.TIN.controller;
 
+import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
+import it.unimib.tin.TIN.repository.ImmagineRepository;
 import it.unimib.tin.TIN.repository.ProdottoRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProdottiAggiuntiController {
@@ -16,10 +32,13 @@ public class ProdottiAggiuntiController {
     private UtenteAutenticatoRepository utenteAutenticatoRepository;
     private ProdottoRepository prodottoRepository;
 
+    private ImmagineRepository immagineRepository;
 
-    public ProdottiAggiuntiController(UtenteAutenticatoRepository utenteAutenticatoRepository, ProdottoRepository prodottoRepository) {
+
+    public ProdottiAggiuntiController(UtenteAutenticatoRepository utenteAutenticatoRepository, ProdottoRepository prodottoRepository, ImmagineRepository immagineRepository) {
         this.utenteAutenticatoRepository = utenteAutenticatoRepository;
         this.prodottoRepository = prodottoRepository;
+        this.immagineRepository = immagineRepository;
     }
 
     @GetMapping("/aggiungiProdotto")
@@ -29,12 +48,88 @@ public class ProdottiAggiuntiController {
         return m;
     }
 
-    @PostMapping("/aggiungiProdotto")
-    public RedirectView nuovoProdottoAggiunto(Prodotto prodotto) {
+    @RequestMapping("/aggiungiProdotto")
+    public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto) {
+        List<MultipartFile> images = new ArrayList<>();
+        if(img1 != null && !img1.isEmpty()){
+            saveImage(img1, prodotto);
+        }
+        if(img2 != null && !img2.isEmpty()){
+            saveImage(img2, prodotto);
+        }
+        if(img3 != null && !img3.isEmpty()){
+            saveImage(img3, prodotto);
+        }
+
         UtenteAutenticato ua = new UtenteAutenticato();
         prodotto.setVenditore(ua);
         prodottoRepository.save(prodotto);
         return new RedirectView("/success");
     }
+
+
+
+    public void saveImage(MultipartFile img, Prodotto prodotto){
+        Immagine im = new Immagine();
+        im.setUrl(img.getOriginalFilename());
+        if(uploadFile(img, im.getUrl())){
+            im.setProdotto(prodotto);
+            immagineRepository.save(im);
+        }
+    }
+
+    public boolean uploadFile(MultipartFile uploadfile, String filename) {
+        if(new File("./img/" + filename).exists())
+            return false;
+        try {
+            String directory = "./img/";
+            String filepath = Paths.get(directory, filename).toString();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+            stream.write(uploadfile.getBytes());
+            stream.close();
+            File file = new File(filepath);
+            BufferedImage originalImage = ImageIO.read(file);
+            int maxWidth = 900;
+            int maxHeight = 900;
+            int originalH = originalImage.getHeight();
+            int originalW = originalImage.getWidth();
+            int height, width;
+
+            if(originalH > maxHeight || originalW > maxWidth) {
+                if(originalH >= originalW) {
+                    height = maxHeight;
+                    // maxHeight : originalH = width : originalW
+                    width = (height * originalW) / originalH;
+                } else {
+                    width = maxWidth;
+                    // height : originalH = width : originalW
+                    height = (originalH * width) / originalW;
+                }
+
+                int typeImage = originalImage.getType();
+
+                BufferedImage resizedImage = new BufferedImage(width, height, typeImage);
+
+                Graphics2D g = resizedImage.createGraphics();
+                g.drawImage(originalImage, 0, 0, width, height, null);
+                g.dispose();
+
+                String ext = (getExt(filename).isPresent()) ? getExt(filename).get() : "";
+
+                ImageIO.write(resizedImage, ext, file);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public Optional<String> getExt(String filename) {
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
 }
 

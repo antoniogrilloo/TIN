@@ -25,15 +25,15 @@
 
 
 <div class="formModPercCard">
-    <form class="float elForm" th:action="@{/aggiungiProdotto}" method="POST">
+    <form class="float elForm" th:action="@{/aggiungiProdotto}" method="POST" enctype="multipart/form-data">
         <label class="text1Form">Immagini:</label>
         <br>
         <br>
-        <input type="file" id="image1" name="image1" accept="image/*"><br><br>
+        <input type="file" name="img1" accept="image/*"><br><br>
 
-        <input type="file" id="image2" name="image2" accept="image/*"><br><br>
+        <input type="file" name="img2" accept="image/*"><br><br>
 
-        <input type="file" id="image3" name="image3" accept="image/*"><br><br>
+        <input type="file" name="img3" accept="image/*"><br><br>
 
         <label class="text1Form">Nome: </label>
         <br>
