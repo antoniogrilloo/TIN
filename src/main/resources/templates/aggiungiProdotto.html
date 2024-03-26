@@ -28,20 +28,19 @@
     <form class="float elForm" th:action="@{/aggiungiProdotto}" method="POST" enctype="multipart/form-data">
         <label class="text1Form">Immagini:</label>
         <br>
+        <input class="form-control" type="file" id="formFile1" name="img1" accept="image/*">
         <br>
-        <input type="file" name="img1" accept="image/*"><br><br>
-
-        <input type="file" name="img2" accept="image/*"><br><br>
-
-        <input type="file" name="img3" accept="image/*"><br><br>
-
+        <input class="form-control" type="file" id="formFile2" name="img2" accept="image/*">
+        <br>
+        <input class="form-control" type="file" id="formFile3" name="img3" accept="image/*">
+        <br>
         <label class="text1Form">Nome: </label>
         <br>
         <input type="text" class="form-control elForm" name="name" th:required="required" placeholder="Nome">
         <br>
         <label class="text1Form">Descrizione:</label>
         <br>
-        <input type="text" class="form-control elForm" name="description" th:required="required" placeholder="Descrizione">
+        <textarea class="form-control" id="exampleFormControlTextarea1" name="description" th:required="required" placeholder="Descrizione" rows="4"></textarea>
         <br>
         <label class="text1Form">Prezzo: </label>
         <br>

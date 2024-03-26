@@ -18,8 +18,7 @@ public class Immagine {
 
     public Immagine() { }
 
-    public Immagine(Long id, String url) {
-        this.id = id;
+    public Immagine(String url) {
         this.url = url;
     }
 
