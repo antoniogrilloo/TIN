@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/mystyle.css">
     <title>Carica Prodotto</title>
 </head>
@@ -22,6 +23,10 @@
         </div>
     </div>
 </nav>
+
+<div id="main">
+    <h1 class="text">Nuovo prodotto:</h1>
+</div>
 
 
 <div class="formModPercCard">
@@ -42,11 +47,27 @@
         <br>
         <textarea class="form-control" id="exampleFormControlTextarea1" name="description" th:required="required" placeholder="Descrizione" rows="4"></textarea>
         <br>
+        <label class="text1Form">Categoria: </label>
+        <select id="drop" name="categoria1">
+                <option value="ELETTRONICA">ELETTRONICA</option>
+                <option value="ABBIGLIAMENTO">ABBIGLIAMENTO</option>
+                <option value="CASA">CASA</option>
+                <option value="LIBRI">LIBRI</option>
+                <option value="MEDIA">MEDIA</option>
+                <option value="BAMBINI">BAMBINI</option>
+                <option value="ANIMALI">ANIMALI</option>
+                <option value="HOBBY">HOBBY</option>
+        </select>
+        <br>
         <label class="text1Form">Prezzo: </label>
         <br>
-        <input type="number" class="form-control date elForm" id="price" name="price" step="0.01" min="0" th:required="required">
+        <input type="number" class="form-control date elForm" id="price" name="price" step="0.01" min="0" th:required="required" placeholder="Prezzo">
         <br>
-        <button type="submit" class="btn btn-primary submit">Crea</button>
+        <input type="text" id="username" name="username" value="admin" style="display: none;">
+        <button type="submit" class="btn btn-primary submit">Aggiungi prodotto</button>
+        <br>
+        <br>
+
     </form>
 </div>
 </body>

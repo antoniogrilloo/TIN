@@ -247,3 +247,13 @@ a{
 .input_container {
     border: 1px solid #e5e5e5;
 }
+
+#drop {
+    font-family: 'Helvetica', sans-serif; /* Specifica il tipo di carattere desiderato */
+    width: 340px;
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    font-size: 1rem;
+    font-weight: 400;
+}

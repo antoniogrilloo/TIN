@@ -27,6 +27,10 @@ public class Prodotto {
     @ManyToMany
     List<UtenteAutenticato> preferitiDa;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
     public Prodotto() { }
 
     public Prodotto(String name, String description, Double price) {
@@ -73,6 +77,14 @@ public class Prodotto {
 
     public void setVenditore(UtenteAutenticato venditore) {
         this.venditore = venditore;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
 

@@ -1,11 +1,7 @@
 package it.unimib.tin.TIN.controller;
 
-import it.unimib.tin.TIN.model.Immagine;
-import it.unimib.tin.TIN.model.Prodotto;
-import it.unimib.tin.TIN.model.UtenteAutenticato;
-import it.unimib.tin.TIN.repository.ImmagineRepository;
-import it.unimib.tin.TIN.repository.ProdottoRepository;
-import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
+import it.unimib.tin.TIN.model.*;
+import it.unimib.tin.TIN.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,15 +26,20 @@ import java.util.Optional;
 public class ProdottiAggiuntiController {
 
     private UtenteAutenticatoRepository utenteAutenticatoRepository;
+
+    private AccountRepository accountRepository;
     private ProdottoRepository prodottoRepository;
 
     private ImmagineRepository immagineRepository;
+    private CategoriaRepository categoriaRepository;
 
 
-    public ProdottiAggiuntiController(UtenteAutenticatoRepository utenteAutenticatoRepository, ProdottoRepository prodottoRepository, ImmagineRepository immagineRepository) {
+    public ProdottiAggiuntiController(UtenteAutenticatoRepository utenteAutenticatoRepository, ProdottoRepository prodottoRepository, ImmagineRepository immagineRepository, AccountRepository accountRepository, CategoriaRepository categoriaRepository) {
         this.utenteAutenticatoRepository = utenteAutenticatoRepository;
+        this.accountRepository = accountRepository;
         this.prodottoRepository = prodottoRepository;
         this.immagineRepository = immagineRepository;
+        this.categoriaRepository = categoriaRepository;
     }
 
     @GetMapping("/aggiungiProdotto")
@@ -49,8 +50,10 @@ public class ProdottiAggiuntiController {
     }
 
     @RequestMapping("/aggiungiProdotto")
-    public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto) {
+    public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
         List<MultipartFile> images = new ArrayList<>();
+
+        System.out.println(username);
         if(img1 != null && !img1.isEmpty()){
             saveImage(img1, prodotto);
         }
@@ -60,9 +63,15 @@ public class ProdottiAggiuntiController {
         if(img3 != null && !img3.isEmpty()){
             saveImage(img3, prodotto);
         }
-
+        System.out.println(categoria);
+        Optional<Account> a = accountRepository.findByUsername(username);
         UtenteAutenticato ua = new UtenteAutenticato();
+        if(a.isPresent()) {
+            ua = a.get().getUser();
+        }
         prodotto.setVenditore(ua);
+        Optional<Categoria> ca = categoriaRepository.findByNome(categoria);
+        ca.ifPresent(prodotto::setCategoria);
         prodottoRepository.save(prodotto);
         return new RedirectView("/success");
     }
