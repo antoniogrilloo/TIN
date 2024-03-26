@@ -2,8 +2,7 @@ package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
-import it.unimib.tin.TIN.model.Account;
-import it.unimib.tin.TIN.model.CartaDiCredito;
+import org.springframework.security.core.Authentication;
 import it.unimib.tin.TIN.model.RegistraUtenteForm;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
@@ -31,10 +30,19 @@ public class RegistrazioneController {
     }
 
     @RequestMapping("/")
-    public ModelAndView index() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+    public RedirectView index(Authentication authentication) {
+        RedirectView mv;
+        if (authentication != null && authentication.isAuthenticated()) {
+            mv = new RedirectView("/protected");
+        } else {
+            mv = new RedirectView("/login");
+        }
         return mv;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("index");
     }
 
     @GetMapping("/registrazione")
@@ -46,8 +54,7 @@ public class RegistrazioneController {
 
     @PostMapping("/registrazione")
     public RedirectView registra(@ModelAttribute RegistraUtenteForm form){
-        ModelAndView mv = new ModelAndView();
-        UtenteAutenticato u = null;
+        UtenteAutenticato u;
         try {
             u = form.getUtente();
             urepo.save(u);
