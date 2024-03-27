@@ -1,6 +1,8 @@
 package it.unimib.tin.TIN.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,9 +33,12 @@ public class Prodotto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    public Prodotto() { }
+    public Prodotto() {
+        this.immagineList = new ArrayList<>();
+    }
 
     public Prodotto(String name, String description, Double price) {
+        super();
         this.name = name;
         this.description = description;
         this.price = price;
@@ -85,6 +90,14 @@ public class Prodotto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Immagine> getImmagineList() {
+        return immagineList;
+    }
+
+    public void setImmagineList(List<Immagine> immagineList) {
+        this.immagineList = immagineList;
     }
 }
 

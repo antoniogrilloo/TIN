@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN.repository;
 
+import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
 
 import org.junit.Test;
@@ -20,6 +21,9 @@ public class ProdottoRepositoryTests {
 
     @Mock
     private ProdottoRepository prepo;
+
+    @Mock
+    private ImmagineRepository irepo;
 
     @Test
     public void testFindById(){
@@ -51,6 +55,23 @@ public class ProdottoRepositoryTests {
         assertEquals("Samsung S22", result.getName());
         assertEquals(80.0, result.getPrice(), 0);
     }
+
+    @Test
+    public void testAssegnaImmagini() {
+        Prodotto existingProd = new Prodotto("Samsung S23", "Telefono usato poco, di ottima qualità", 800.0);
+        Immagine existingIm = new Immagine("immagine.jpg");
+        Long prodId = 1L;
+        Long imId = 2L;
+        existingProd.setId(prodId);
+        existingIm.setId(imId);
+        existingIm.setProdotto(existingProd);
+        when(prepo.findById(prodId)).thenReturn(Optional.of(existingProd));
+        when(irepo.findById(imId)).thenReturn(Optional.of(existingIm));
+
+        assertEquals(existingIm.getProdotto(), existingProd);
+        assertEquals("immagine.jpg", existingIm.getUrl());
+    }
+
 
     @Test
     public void testDelete() {

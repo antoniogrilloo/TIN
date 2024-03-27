@@ -51,19 +51,7 @@ public class ProdottiAggiuntiController {
 
     @RequestMapping("/aggiungiProdotto")
     public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
-        List<MultipartFile> images = new ArrayList<>();
 
-        System.out.println(username);
-        if(img1 != null && !img1.isEmpty()){
-            saveImage(img1, prodotto);
-        }
-        if(img2 != null && !img2.isEmpty()){
-            saveImage(img2, prodotto);
-        }
-        if(img3 != null && !img3.isEmpty()){
-            saveImage(img3, prodotto);
-        }
-        System.out.println(categoria);
         Optional<Account> a = accountRepository.findByUsername(username);
         UtenteAutenticato ua = new UtenteAutenticato();
         if(a.isPresent()) {
@@ -73,6 +61,16 @@ public class ProdottiAggiuntiController {
         Optional<Categoria> ca = categoriaRepository.findByNome(categoria);
         ca.ifPresent(prodotto::setCategoria);
         prodottoRepository.save(prodotto);
+
+        if(img1 != null && !img1.isEmpty()){
+            saveImage(img1, prodotto);
+        }
+        if(img2 != null && !img2.isEmpty()){
+            saveImage(img2, prodotto);
+        }
+        if(img3 != null && !img3.isEmpty()){
+            saveImage(img3, prodotto);
+        }
         return new RedirectView("/success");
     }
 
@@ -80,15 +78,16 @@ public class ProdottiAggiuntiController {
 
     public void saveImage(MultipartFile img, Prodotto prodotto){
         Immagine im = new Immagine();
-        im.setUrl(img.getOriginalFilename());
+        im.setUrl(prodotto.getId().toString() + img.getOriginalFilename());
         if(uploadFile(img, im.getUrl())){
             im.setProdotto(prodotto);
             immagineRepository.save(im);
+            prodotto.getImmagineList().add(im);
         }
     }
 
     public boolean uploadFile(MultipartFile uploadfile, String filename) {
-        if(new File("./img/" + filename).exists())
+        if(new File("./img/" + filename ).exists())
             return false;
         try {
             String directory = "./img/";
