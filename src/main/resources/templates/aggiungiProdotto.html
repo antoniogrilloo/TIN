@@ -7,6 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/mystyle.css">
+    <style>
+        #drop1{
+            font-family: 'Helvetica', sans-serif;
+            width: 340px;
+            height: 38px;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+    </style>
     <title>Carica Prodotto</title>
 </head>
 <body>
@@ -48,7 +59,7 @@
         <textarea class="form-control" id="exampleFormControlTextarea1" name="description" th:required="required" placeholder="Descrizione" rows="4"></textarea>
         <br>
         <label class="text1Form">Categoria: </label>
-        <select id="drop" name="categoria1">
+        <select id="drop1" name="categoria1">
                 <option value="ELETTRONICA">ELETTRONICA</option>
                 <option value="ABBIGLIAMENTO">ABBIGLIAMENTO</option>
                 <option value="CASA">CASA</option>

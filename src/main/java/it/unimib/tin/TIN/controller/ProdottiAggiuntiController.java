@@ -49,7 +49,7 @@ public class ProdottiAggiuntiController {
         return m;
     }
 
-    @RequestMapping("/aggiungiProdotto")
+    @PostMapping("/aggiungiProdotto")
     public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
 
         Optional<Account> a = accountRepository.findByUsername(username);
