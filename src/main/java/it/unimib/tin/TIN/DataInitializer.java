@@ -24,8 +24,6 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        carepo.deleteAll();
-
         if (carepo.count() == 0){
             carepo.save(new Categoria("ELETTRONICA"));
             carepo.save(new Categoria("ABBIGLIAMENTO"));
@@ -36,8 +34,7 @@ public class DataInitializer implements CommandLineRunner {
             carepo.save(new Categoria("ANIMALI"));
             carepo.save(new Categoria("HOBBY"));
         }
-        arepo.deleteAll();
-        uarepo.deleteAll();
+
         if(arepo.count() == 0 && uarepo.count() == 0){
             Account a = new Account("admin", "aaa@aaa.com", "admin");
             UtenteAutenticato ua = new UtenteAutenticato("admin", "admin", new Date(), "Via Admin");

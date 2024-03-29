@@ -5,7 +5,6 @@ import it.unimib.tin.TIN.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,38 +17,38 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class ProdottiAggiuntiController {
-
-    private UtenteAutenticatoRepository utenteAutenticatoRepository;
-
     private AccountRepository accountRepository;
     private ProdottoRepository prodottoRepository;
-
     private ImmagineRepository immagineRepository;
     private CategoriaRepository categoriaRepository;
 
 
-    public ProdottiAggiuntiController(UtenteAutenticatoRepository utenteAutenticatoRepository, ProdottoRepository prodottoRepository, ImmagineRepository immagineRepository, AccountRepository accountRepository, CategoriaRepository categoriaRepository) {
-        this.utenteAutenticatoRepository = utenteAutenticatoRepository;
+    public ProdottiAggiuntiController(ProdottoRepository prodottoRepository, ImmagineRepository immagineRepository, AccountRepository accountRepository, CategoriaRepository categoriaRepository) {
         this.accountRepository = accountRepository;
         this.prodottoRepository = prodottoRepository;
         this.immagineRepository = immagineRepository;
         this.categoriaRepository = categoriaRepository;
     }
 
-    @GetMapping("/aggiungiProdotto")
+    @GetMapping("/protected/aggiungiProdotto")
     public ModelAndView nuovoProdotto() {
         ModelAndView m = new ModelAndView();
         m.setViewName("aggiungiProdotto");
         return m;
     }
 
-    @PostMapping("/aggiungiProdotto")
+    @GetMapping("/success")
+    public ModelAndView successo() {
+        ModelAndView m = new ModelAndView();
+        m.setViewName("success");
+        return m;
+    }
+
+    @PostMapping("/protected/aggiungiProdotto")
     public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
 
         Optional<Account> a = accountRepository.findByUsername(username);
