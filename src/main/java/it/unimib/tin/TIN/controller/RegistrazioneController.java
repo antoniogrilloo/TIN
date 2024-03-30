@@ -9,33 +9,32 @@ import it.unimib.tin.TIN.repository.AccountRepository;
 import it.unimib.tin.TIN.repository.CartaDiCreditoRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.Optional;
 
 @Controller
 public class RegistrazioneController {
 
-    private AccountRepository arepo;
     private UtenteAutenticatoRepository urepo;
-    private CartaDiCreditoRepository ccrepo;
 
-    public RegistrazioneController(AccountRepository arepo, UtenteAutenticatoRepository urepo, CartaDiCreditoRepository ccrepo) {
-        this.arepo = arepo;
+    public RegistrazioneController(UtenteAutenticatoRepository urepo) {
         this.urepo = urepo;
-        this.ccrepo = ccrepo;
     }
 
     @RequestMapping("/")
-    public RedirectView index(Authentication authentication) {
+    public RedirectView index(Authentication authentication, @RequestParam(name = "error", required = false) String error,
+                              @RequestParam(name = "logout", required = false) String logout) {
         RedirectView mv;
         if (authentication != null && authentication.isAuthenticated()) {
             mv = new RedirectView("/protected");
         } else {
-            mv = new RedirectView("/login");
+            error = (error != null) ? "error" : "";
+            logout = (logout != null) ? "logout" : "";
+            String params = "?" + ((!error.isEmpty()) ? error : logout) ;
+            mv = new RedirectView("/login" + params);
         }
         return mv;
     }
