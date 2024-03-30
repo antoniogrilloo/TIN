@@ -5,8 +5,6 @@ import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import org.springframework.security.core.Authentication;
 import it.unimib.tin.TIN.model.RegistraUtenteForm;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
-import it.unimib.tin.TIN.repository.AccountRepository;
-import it.unimib.tin.TIN.repository.CartaDiCreditoRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

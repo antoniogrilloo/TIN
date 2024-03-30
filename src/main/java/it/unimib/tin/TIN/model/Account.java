@@ -3,9 +3,6 @@ package it.unimib.tin.TIN.model;
 import it.unimib.tin.TIN.exception.AccountException;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
