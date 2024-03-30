@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class UtenteRepositoryTests {
+public class UtenteRepositoryTest {
 
     @Mock
     private UtenteAutenticatoRepository urepo;
