@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authz) ->
                         authz
-                                .requestMatchers("/protected").authenticated()
+                                .requestMatchers("/protected/**").authenticated()
                                 .anyRequest().permitAll())
                 .formLogin((formLogin) ->
                         formLogin
