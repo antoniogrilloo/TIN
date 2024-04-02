@@ -3,6 +3,7 @@ package it.unimib.tin.TIN.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Categoria {
@@ -35,5 +36,18 @@ public class Categoria {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Categoria categoria = (Categoria) o;
+        return Objects.equals(nome, categoria.nome.toUpperCase());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
     }
 }
