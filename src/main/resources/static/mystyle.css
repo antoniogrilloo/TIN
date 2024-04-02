@@ -153,6 +153,16 @@ nav{
     text-shadow:  0 4px 4px #101018;
 }
 
+.text3{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    font-size: 25px;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+
+
 .textBday{
     text-transform: uppercase;
     font-family: verdana;

@@ -25,7 +25,14 @@
 </nav>
 
 <div id="main">
-    <h1 class="text2" th:text="${user.getNome()} + ' ' + ${user.getCognome()}">Nome</h1>
+    <h1 class="text2" th:text="'Username: ' + ${user.getAccount().getUsername()}">Nome</h1>
+</div>
+<br>
+<div class="padding">
+    <h1 class="text3" th:text="'Nome: ' + ${user.getNome()}">Nome</h1>
+</div>
+<div class="padding">
+    <h1 class="text3" th:text="'Cognome: ' + ${user.getCognome()}">Nome</h1>
 </div>
 
 </body>
