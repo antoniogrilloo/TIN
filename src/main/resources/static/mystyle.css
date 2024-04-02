@@ -248,3 +248,42 @@ a{
     border: 1px solid #e5e5e5;
 }
 
+.image-container {
+    display: inline-block;
+    margin-right: 10px;
+}
+.image-container img {
+    max-width: 400px;
+    max-height: 400px;
+}
+.image-list {
+    margin-left: 10%;
+}
+.image-card {
+    background-color: #ffffff;
+    padding: 10px 0px 10px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: inline-flex;
+    max-width: calc(100% - 20px);
+    overflow-x: auto;
+}
+.textProd{
+    text-transform: uppercase;
+    font-family: verdana;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+.padding{
+    padding-left: 10%;
+}
+
+.textInfoProd{
+    font-family: verdana;
+    font-weight: 300;
+    color: #f5f5f5;
+    text-shadow:  0 4px 4px #101018;
+}
+

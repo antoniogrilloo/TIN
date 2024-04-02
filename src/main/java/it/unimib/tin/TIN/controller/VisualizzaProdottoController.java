@@ -18,7 +18,7 @@ public class VisualizzaProdottoController {
     }
 
     @GetMapping("/prodotto/{idProdotto}")
-    public ModelAndView infoCiclista(@PathVariable("idProdotto") Long idProdotto) {
+    public ModelAndView infoProdotto(@PathVariable("idProdotto") Long idProdotto) {
         ModelAndView maw = new ModelAndView();
         Optional<Prodotto> p = this.prodottoRepository.findById(idProdotto);
         if(p.isPresent()){

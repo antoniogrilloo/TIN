@@ -8,29 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/mystyle.css">
     <title>Prodotto</title>
-    <style>
-        .image-container {
-            display: inline-block;
-            margin-right: 10px;
-        }
-        .image-container img {
-            max-width: 400px;
-            max-height: 400px;
-        }
-        .image-list {
-            margin-left: 10%;
-        }
-        .image-card {
-            background-color: #ffffff;
-            padding: 10px 0px 10px 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            display: inline-flex;
-            max-width: calc(100% - 20px);
-            overflow-x: auto;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
@@ -48,7 +25,7 @@
 </nav>
 
 <div id="main">
-    <h1 class="textNomeProdotto" th:text="${prodotto.getName()}">Nome</h1>
+    <h1 class="textProd" th:text="${prodotto.getName()}">Nome</h1>
 </div>
 <br>
 <br>
@@ -66,23 +43,21 @@
 </div>
 <br>
 <div class="padding">
-    <label class="textDescrizione" th:text="${prodotto.getDescription()}">Descrizione</label>
+    <label class="textInfoProd" th:text="${prodotto.getDescription()}">Descrizione</label>
 </div>
 <br>
 <br>
 <div class="padding">
     <label class="text1Form">Categoria:&nbsp; &nbsp;</label>
-
-    <label class="textDescrizione" th:text="  ${prodotto.getCategoria().getNome()}">Prezzo</label>
+    <label class="textInfoProd" th:text="  ${prodotto.getCategoria().getNome()}">Prezzo</label>
 </div>
 <br>
 <br>
 <div class="padding">
     <label class="text1Form">Prezzo:&nbsp;&nbsp;</label>
-    <label class="textDescrizione" th:text="${prodotto.getPrice()}">Prezzo</label>
+    <label class="textInfoProd" th:text="${prodotto.getPrice()}">Prezzo</label>
 </div>
-
-
-
+<br>
+<br>
 </body>
 </html>
