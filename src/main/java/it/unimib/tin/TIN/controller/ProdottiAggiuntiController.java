@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -49,8 +50,9 @@ public class ProdottiAggiuntiController {
     }
 
     @PostMapping("/protected/aggiungiProdotto")
-    public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
-
+    public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1") String categoria) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         Optional<Account> a = accountRepository.findByUsername(username);
         UtenteAutenticato ua = new UtenteAutenticato();
         if(a.isPresent()) {
