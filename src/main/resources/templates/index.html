@@ -3,20 +3,31 @@
 <head>
     <title>TIN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/searchBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/mystyle.css">
+    <script src="/searchBar.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
+
     <div class="container-fluid">
         <a class="navbar-brand" href="/">TIN</a>
-        <!-- Spazio vuoto per far spostare l'input di ricerca al centro -->
-        <div class="d-flex mx-auto">
-            <!-- Input di ricerca -->
-            <input type="text" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
-            <!-- Eventuali bottoni per eseguire la ricerca -->
-            <button class="btn btn-outline-success" type="submit">Search</button>
+        <div class="d-flex align-items-center mx-auto">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
+                <div class="input-group-append">
+                    <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
+                </div>
+            </div>
+            <select id="categorySelect" class="form-control hidden">
+                <option value="0">Categorie</option>
+                <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getNome()}"></option>
+            </select>
+            <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button"><i class="fas fa-search"></i></button>
         </div>
     </div>
+
 </nav>
 
 <div id="main">
@@ -44,5 +55,6 @@
         <a class="textDesc" style="font-size: medium" th:href="@{/registrazione}">Registrazione?</a>
     </form>
 </div>
+
 </body>
 </html>

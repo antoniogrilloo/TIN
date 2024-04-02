@@ -12,6 +12,8 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "categoria_id")
     private Long id;
+
+    @Column(unique = true)
     private String nome;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.ALL)
@@ -50,4 +52,5 @@ public class Categoria {
     public int hashCode() {
         return Objects.hash(nome);
     }
+
 }
