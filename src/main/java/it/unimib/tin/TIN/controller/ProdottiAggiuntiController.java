@@ -52,11 +52,11 @@ public class ProdottiAggiuntiController {
     public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1")String categoria,  @RequestParam("username")String username) {
 
         Optional<Account> a = accountRepository.findByUsername(username);
-        UtenteAutenticato ua = new UtenteAutenticato();
         if(a.isPresent()) {
-            ua = a.get().getUser();
+            UtenteAutenticato ua = a.get().getUser();
+            prodotto.setVenditore(ua);
+            ua.getProdottiList().add(prodotto);
         }
-        prodotto.setVenditore(ua);
         Optional<Categoria> ca = categoriaRepository.findByNome(categoria);
         ca.ifPresent(prodotto::setCategoria);
         prodottoRepository.save(prodotto);

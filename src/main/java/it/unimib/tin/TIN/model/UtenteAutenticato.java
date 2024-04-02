@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class UtenteAutenticato {
@@ -30,6 +31,9 @@ public class UtenteAutenticato {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "venditore", cascade = CascadeType.ALL)
+    private List<Prodotto> prodottiList;
 
     public UtenteAutenticato(String nome, String cognome, Date nascita, String indirizzo) {
         this.nome = nome;
@@ -96,5 +100,13 @@ public class UtenteAutenticato {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public List<Prodotto> getProdottiList() {
+        return prodottiList;
+    }
+
+    public void setProdottiList(List<Prodotto> prodottiList) {
+        this.prodottiList = prodottiList;
     }
 }

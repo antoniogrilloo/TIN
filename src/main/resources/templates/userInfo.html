@@ -35,5 +35,19 @@
     <h1 class="text3" th:text="'Cognome: ' + ${user.getCognome()}">Nome</h1>
 </div>
 
+<div class= "scrollable">
+    <table class="tabCic" th:each="prodotto: ${user.getProdottiList()}">
+        <tr>
+            <td class="tdPercorso" >
+                <a th:href="@{/prodotto/{id}(id = ${prodotto.getId()})}"><div  class="card btnHome">
+                    <div th:text="${prodotto.getName()}"></div>
+                    <div class="textPerc" th:text="${prodotto.getDescription()}">Dati percorso</div>
+                    <div class="textPerc" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + ' | PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
+                </div></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
 </body>
 </html>
