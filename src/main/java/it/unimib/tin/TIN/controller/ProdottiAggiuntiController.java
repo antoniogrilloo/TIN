@@ -86,10 +86,10 @@ public class ProdottiAggiuntiController {
     }
 
     public boolean uploadFile(MultipartFile uploadfile, String filename) {
-        if(new File("./img/" + filename ).exists())
+        if(new File("./src/main/resources/static/images/" + filename ).exists())
             return false;
         try {
-            String directory = "./img/";
+            String directory = "./src/main/resources/static/images/";
             String filepath = Paths.get(directory, filename).toString();
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
             stream.write(uploadfile.getBytes());

@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN.repository;
 
+import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
 
@@ -24,6 +25,8 @@ public class ProdottoRepositoryTests {
 
     @Mock
     private ImmagineRepository irepo;
+    @Mock
+    private CategoriaRepository crepo;
 
     @Test
     public void testFindById(){
@@ -79,5 +82,27 @@ public class ProdottoRepositoryTests {
         doNothing().when(prepo).deleteById(prodId);
         prepo.deleteById(prodId);
         verify(prepo, times(1)).deleteById(prodId);
+    }
+
+    @Test
+    public void testVisualizzazioneInfoProdotto(){
+        Prodotto p = new Prodotto("Samsung S23", "Telefono usato poco, di ottima qualità", 800.0);
+        Optional<Categoria> c = crepo.findByNome("ELETTRONICA");
+        Categoria cate = null;
+        if(c.isPresent()){
+            cate = c.get();
+        }
+        p.setCategoria(cate);
+        Long prodId = 1L;
+        p.setId(prodId);
+        when(prepo.findById(anyLong())).thenReturn(Optional.of(p));
+        Optional<Prodotto> result = prepo.findById(prodId);
+
+        assertTrue(result.isPresent());
+        assertEquals(p, result.get());
+        assertEquals(p.getName(), result.get().getName());
+        assertEquals(p.getDescription(), result.get().getDescription());
+        assertEquals(p.getPrice(), result.get().getPrice(), 0);
+        assertEquals(p.getCategoria(), result.get().getCategoria());
     }
 }
