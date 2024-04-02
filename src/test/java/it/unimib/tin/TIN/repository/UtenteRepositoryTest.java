@@ -2,9 +2,7 @@ package it.unimib.tin.TIN.repository;
 
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
-import it.unimib.tin.TIN.model.Account;
-import it.unimib.tin.TIN.model.CartaDiCredito;
-import it.unimib.tin.TIN.model.UtenteAutenticato;
+import it.unimib.tin.TIN.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,6 +22,9 @@ public class UtenteRepositoryTest {
 
     @Mock
     private UtenteAutenticatoRepository urepo;
+
+    @Mock
+    private AccountRepository arepo;
 
     @Test
     public void testFindById() {
@@ -122,5 +123,28 @@ public class UtenteRepositoryTest {
         assertEquals("1234567890123456", savedUser.getCc().getNumero());
     }
 
+    @Test
+    public void testVisualizzazioneInfoUtente() throws AccountException {
+        UtenteAutenticato u = new UtenteAutenticato("Utente", "Autenticato", new Date(),"Via Utente");
+        Account a = new Account("pcafiero", "pcaf@mail.com", "qas34esdre");
+        Long userId = 1L;
+        u.setId(userId);
+        u.setAccount(a);
 
+        when(urepo.save(any(UtenteAutenticato.class))).thenAnswer(invocation -> {
+            UtenteAutenticato newUser = invocation.getArgument(0);
+            newUser.setId(1L);
+            return newUser;
+        });
+
+        UtenteAutenticato savedUser = urepo.save(u);
+
+
+        assertNotNull(savedUser.getId());
+        assertEquals(Optional.of(1L), Optional.ofNullable(savedUser.getId()));
+        assertEquals("Utente", savedUser.getNome());
+        assertEquals("Autenticato", savedUser.getCognome());
+        assertEquals("pcafiero", savedUser.getAccount().getUsername());
+        assertEquals("pcaf@mail.com", savedUser.getAccount().getEmail());
+    }
 }
