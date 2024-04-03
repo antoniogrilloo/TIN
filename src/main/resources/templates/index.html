@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>TIN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -25,6 +25,14 @@
                 <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getNome()}"></option>
             </select>
             <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button"><i class="fas fa-search"></i></button>
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <div class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></div>
+                <form th:action="@{/logout}" method="post" class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-link text-primary p-0" type="submit">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
