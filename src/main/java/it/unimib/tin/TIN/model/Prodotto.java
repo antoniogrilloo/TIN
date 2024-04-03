@@ -99,5 +99,10 @@ public class Prodotto {
     public void setImmagineList(List<Immagine> immagineList) {
         this.immagineList = immagineList;
     }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + price + " " + venditore.getAccount().getUsername() + " " + categoria.getNome();
+    }
 }
 

@@ -54,6 +54,8 @@ public class RegistrazioneController {
     @GetMapping("/registrazione")
     public ModelAndView registrazione() {
         ModelAndView mv = new ModelAndView();
+        List<Categoria> categories = crepo.findAll();
+        mv.addObject("categories", categories);
         mv.setViewName("registrazione");
         return mv;
     }
@@ -77,7 +79,10 @@ public class RegistrazioneController {
 
     @GetMapping("/confirm")
     public ModelAndView confirmRegistration() {
-        return new ModelAndView("registrazioneAvvenuta");
+        ModelAndView maw = new ModelAndView("registrazioneAvvenuta");
+        List<Categoria> categories = crepo.findAll();
+        maw.addObject("categories", categories);
+        return maw;
     }
 
     @GetMapping("/protected")
