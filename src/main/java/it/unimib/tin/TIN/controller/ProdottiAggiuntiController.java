@@ -54,11 +54,11 @@ public class ProdottiAggiuntiController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Optional<Account> a = accountRepository.findByUsername(username);
-        UtenteAutenticato ua = new UtenteAutenticato();
         if(a.isPresent()) {
-            ua = a.get().getUser();
+            UtenteAutenticato ua = a.get().getUser();
+            prodotto.setVenditore(ua);
+            ua.getProdottiList().add(prodotto);
         }
-        prodotto.setVenditore(ua);
         Optional<Categoria> ca = categoriaRepository.findByNome(categoria);
         ca.ifPresent(prodotto::setCategoria);
         prodottoRepository.save(prodotto);
