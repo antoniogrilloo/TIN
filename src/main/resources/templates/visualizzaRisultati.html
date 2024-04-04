@@ -9,8 +9,8 @@
     <script src="/searchBar.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">TIN</a>
         <div class="d-flex align-items-center mx-auto">
@@ -25,27 +25,37 @@
                 <option th:each="category : ${categories}" th:value="${category.getNome()}" th:text="${category.getNome()}"></option>
             </select>
             <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
-            <div th:if="${#authorization.expression('isAuthenticated()')}">
-                <div class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></div>
-                <form th:action="@{/logout}" method="post" class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-link text-primary p-0" type="submit">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </form>
-            </div>
+            <br>
+        </div>
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+            <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
+                <button class="btn btn-link text-primary p-0" type="submit">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
         </div>
     </div>
-
 </nav>
 
 <div id="main">
     <h1 class="text">Risultati ricerca</h1>
 </div>
 <div class="padding textInfoProd">
-     Risultati della ricerca <span th:remove="tag" th:if='${categoria.getId() != -1}'>per categoria <span th:remove="tag" th:text="${categoria.nome}">nomeCategoria</span></span>
-    <ul>
-        <li th:each="item : ${prodotti}" th:text="${item}">Elemento predefinito</li>
-    </ul>
+    Risultati della ricerca<span th:remove="tag" th:if='${categoria.getId() != -1}'> per categoria <span th:remove="tag" th:text="${categoria.nome}">nomeCategoria</span></span><span th:remove="tag" th:if='${categoria.getId() == -1}'>: Visualizzo tutti i prodotti</span>
+</div>
+<div class= "scrollable">
+    <table class="tabCic" th:each="prodotto: ${prodotti}">
+        <tr>
+            <td class="tdPercorso" >
+                <a th:href="@{/prodotto/{id}(id = ${prodotto.getId()})}"><div  class="card btnHome">
+                    <div th:text="${prodotto.getName()}"></div>
+                    <div class="textPerc" th:text="${prodotto.getDescription()}">Dati prodotto</div>
+                    <div class="textPerc" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + ' | PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
+                </div></a>
+            </td>
+        </tr>
+    </table>
 </div>
 
 

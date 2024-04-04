@@ -35,7 +35,7 @@ public class RicercaController {
         Optional<List<Prodotto>> p;
         List<Prodotto> prod;
         if (categoria == null || categoria.isEmpty() || categoria.equals("0")){
-            prod = new ArrayList<>();
+            prod = prepo.findAll();
             c = new Categoria("");
             c.setId(-1L);
         } else {
