@@ -2,6 +2,8 @@ package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
+import it.unimib.tin.TIN.model.Categoria;
+import it.unimib.tin.TIN.repository.CategoriaRepository;
 import org.springframework.security.core.Authentication;
 import it.unimib.tin.TIN.model.RegistraUtenteForm;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,8 +21,11 @@ public class RegistrazioneController {
 
     private UtenteAutenticatoRepository urepo;
 
-    public RegistrazioneController(UtenteAutenticatoRepository urepo) {
+    private CategoriaRepository crepo;
+
+    public RegistrazioneController(UtenteAutenticatoRepository urepo, CategoriaRepository crepo) {
         this.urepo = urepo;
+        this.crepo = crepo;
     }
 
     @RequestMapping("/")
@@ -39,12 +45,17 @@ public class RegistrazioneController {
 
     @RequestMapping("/login")
     public ModelAndView login() {
-        return new ModelAndView("index");
+        ModelAndView maw = new ModelAndView("index");
+        List<Categoria> categories = crepo.findAll();
+        maw.addObject("categories", categories);
+        return maw;
     }
 
     @GetMapping("/registrazione")
     public ModelAndView registrazione() {
         ModelAndView mv = new ModelAndView();
+        List<Categoria> categories = crepo.findAll();
+        mv.addObject("categories", categories);
         mv.setViewName("registrazione");
         return mv;
     }
@@ -68,12 +79,18 @@ public class RegistrazioneController {
 
     @GetMapping("/confirm")
     public ModelAndView confirmRegistration() {
-        return new ModelAndView("registrazioneAvvenuta");
+        ModelAndView maw = new ModelAndView("registrazioneAvvenuta");
+        List<Categoria> categories = crepo.findAll();
+        maw.addObject("categories", categories);
+        return maw;
     }
 
     @GetMapping("/protected")
     public ModelAndView homepage() {
-        return new ModelAndView("homepage");
+        ModelAndView maw = new ModelAndView("homepage");
+        List<Categoria> categories = crepo.findAll();
+        maw.addObject("categories", categories);
+        return maw;
     }
 
 }
