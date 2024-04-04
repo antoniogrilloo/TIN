@@ -7,6 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/mystyle.css">
+    <link rel="stylesheet" href="/searchBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="/searchBar.js"></script>
+
     <style>
         #drop1{
             font-family: 'Helvetica', sans-serif;
@@ -70,20 +74,13 @@
         <br>
         <label class="text1Form">Descrizione:</label>
         <br>
-        <textarea class="form-control" id="exampleFormControlTextarea1" name="description" th:required="required" placeholder="Descrizione" rows="4"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" name="description" th:required="required" placeholder="Descrizione" rows="4" maxlength="200"></textarea>
         <br>
         <label class="text1Form">Categoria: </label>
         <select id="drop1" name="categoria1">
-                <option value="ELETTRONICA">ELETTRONICA</option>
-                <option value="ABBIGLIAMENTO">ABBIGLIAMENTO</option>
-                <option value="CASA">CASA</option>
-                <option value="LIBRI">LIBRI</option>
-                <option value="MEDIA">MEDIA</option>
-                <option value="BAMBINI">BAMBINI</option>
-                <option value="ANIMALI">ANIMALI</option>
-                <option value="HOBBY">HOBBY</option>
+                <option th:each="category : ${categories}" th:value="${category.getNome()}" th:text="${category.getNome()}"></option>
         </select>
-        <br>
+        <br><br>
         <label class="text1Form">Prezzo: </label>
         <br>
         <input type="number" class="form-control date elForm" id="price" name="price" step="0.01" min="0" th:required="required" placeholder="Prezzo">

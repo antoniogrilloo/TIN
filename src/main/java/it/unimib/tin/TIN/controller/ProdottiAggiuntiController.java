@@ -18,6 +18,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +39,8 @@ public class ProdottiAggiuntiController {
     @GetMapping("/protected/aggiungiProdotto")
     public ModelAndView nuovoProdotto() {
         ModelAndView m = new ModelAndView();
+        List<Categoria> categories = categoriaRepository.findAll();
+        m.addObject("categories", categories);
         m.setViewName("aggiungiProdotto");
         return m;
     }
