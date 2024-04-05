@@ -1,11 +1,15 @@
 package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.model.Prodotto;
+import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
@@ -13,8 +17,11 @@ import java.util.Optional;
 public class VisualizzaProdottoController {
     private ProdottoRepository prodottoRepository;
 
-    public VisualizzaProdottoController(ProdottoRepository prodottoRepository) {
+    private UtenteAutenticatoRepository utenteAutenticatoRepository;
+
+    public VisualizzaProdottoController(ProdottoRepository prodottoRepository, UtenteAutenticatoRepository utenteAutenticatoRepository) {
         this.prodottoRepository = prodottoRepository;
+        this.utenteAutenticatoRepository = utenteAutenticatoRepository;
     }
 
     @GetMapping("/prodotto/{idProdotto}")
@@ -33,5 +40,17 @@ public class VisualizzaProdottoController {
         maw.addObject("confirm", confirm);
         maw.setViewName("prodottoInfo");
         return maw;
+    }
+
+    @PostMapping("/user/eliminaProdotto/{idUser}")
+    public RedirectView eliminaProdotto(@PathVariable Long idUser, @RequestParam Long idProdotto) {
+        Optional<UtenteAutenticato> utente = utenteAutenticatoRepository.findById(idUser);
+        Optional<Prodotto> prodotto = prodottoRepository.findById(idProdotto);
+        if(utente.isPresent() && prodotto.isPresent()) {
+            utente.get().deleteProdotto(prodotto.get());
+            utenteAutenticatoRepository.save(utente.get());
+            prodottoRepository.delete(prodotto.get());
+        }
+        return new RedirectView("/user/" + idUser);
     }
 }

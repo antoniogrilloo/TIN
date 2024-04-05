@@ -1,15 +1,20 @@
 package it.unimib.tin.TIN;
 import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.Categoria;
+import it.unimib.tin.TIN.model.Prodotto;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
+import it.unimib.tin.TIN.repository.ProdottoRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Optional;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -21,6 +26,16 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private UtenteAutenticatoRepository uarepo;
+
+    @Autowired
+    private ProdottoRepository prepo;
+
+    @Autowired
+    private CategoriaRepository crepo;
+
+    @Autowired
+    private EntityManager entityManager;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -42,7 +57,13 @@ public class DataInitializer implements CommandLineRunner {
             a.setUser(ua);
             arepo.save(a);
             uarepo.save(ua);
+
+
+
+
         }
+
+
 
     }
 }

@@ -109,4 +109,8 @@ public class UtenteAutenticato {
     public void setProdottiList(List<Prodotto> prodottiList) {
         this.prodottiList = prodottiList;
     }
+
+    public void deleteProdotto(Prodotto p) {
+        this.prodottiList.remove(p);
+    }
 }

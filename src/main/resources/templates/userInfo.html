@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/mystyle.css">
     <link rel="stylesheet" href="/searchBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://kit.fontawesome.com/4217420dea.js" crossorigin="anonymous"></script>
     <script src="/searchBar.js"></script>
     <title>Prodotto</title>
 </head>
@@ -61,6 +62,12 @@
                     <div class="textPerc" th:text="${prodotto.getDescription()}">Dati percorso</div>
                     <div class="textPerc" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + ' | PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
                 </div></a>
+            </td>
+            <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()}">
+                <form method="POST" th:action="@{/user/eliminaProdotto/{id}(id = ${user.getId()})}">
+                    <input type="hidden" th:value="${prodotto.getId()}" name="idProdotto">
+                    <button  class="deleteButt" type="submit"><i class="fa-solid fa-trash"></i></button>
+                </form>
             </td>
         </tr>
     </table>
