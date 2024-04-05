@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>TIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/searchBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/mystyle.css">
+    <script src="/searchBar.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">TIN</a>
+        <div class="d-flex align-items-center mx-auto">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
+                <div class="input-group-append">
+                    <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
+                </div>
+            </div>
+            <select id="categorySelect" class="form-control hidden">
+                <option value="0">Categorie</option>
+                <option th:each="category : ${categories}" th:value="${category.getNome()}" th:text="${category.getNome()}"></option>
+            </select>
+            <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
+            <br>
+        </div>
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+            <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
+                <button class="btn btn-link text-primary p-0" type="submit">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div id="main">
+    <h1 class="text" th:text="${user.getNome()} +' '+ ${user.getCognome()}">Nome Cognome</h1>
+</div>
+
+<h2 class="textSottoTit">Modifica profilo:</h2>
+<div class="formModPercCard">
+    <form class="float elForm" method="POST" th:action="@{/protected/user/aggiornaProfilo}">
+        <h3 class="textDesc">Dati anagrafici</h3>
+        <input type="text" class="form-control elForm" name="id" th:required="required" th:value="${user.getId()}" hidden="hidden">
+        <label class="text1Form">Nome: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="nome" th:required="required" th:value="${user.getNome()}">
+        <label class="text1Form">Cognome: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="cognome" th:required="required" th:value="${user.getCognome()}">
+        <label class="text1Form">Data di nascita: </label>
+        <br>
+        <input type="date" class="form-control date elForm" name="nascita" th:required="required" min="1900-01-01" max="2100-12-31" th:value="${user.getNascita()}">
+        <label class="text1Form">Indirizzo: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="indirizzo" th:required="required" placeholder="Indirizzo" th:value="${user.getIndirizzo()}">
+        <br>
+        <h3 class="textDesc">Dati di pagamento</h3>
+        <label class="text1Form">Numero carta di credito: </label>
+        <input type="text" class="form-control elForm" name="id" th:required="required" th:value="${cc.getId()}" hidden="hidden">
+        <br>
+        <input id="numero" class="form-control elForm" name="numero" th:required="required" type="tel" inputmode="numeric"
+               th:value="${cc.getNumero()}"
+               pattern="[0-9\s]{13,19}"
+               autocomplete="cc-number" maxlength="19"
+               placeholder="xxxx xxxx xxxx xxxx" required>
+        <label class="text1Form">CVV: </label>
+        <br>
+        <input type="tel" class="form-control elForm" name="cvv" th:required="required" placeholder="xxx" autocomplete="cvv" maxlength="3" pattern="([0-9][0-9][0-9])" th:value="${cc.getCvv()}">
+        <label class="text1Form">Proprietario carta: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="nomeProprietario" th:required="required" placeholder="Proprietario" th:value="${cc.getNomeProprietario()}">
+        <br>
+        <h3 class="textDesc">Dati account</h3>
+        <input type="text" class="form-control elForm" name="id" th:required="required" th:value="${account.getId()}" hidden="hidden">
+        <label class="text1Form">Email: </label>
+        <br>
+        <input type="email" class="form-control elForm" name="email" th:required="required" placeholder="Email" th:value="${account.getEmail()}">
+        <label class="text1Form">Username: </label>
+        <br>
+        <input type="text" class="form-control elForm" name="username" th:required="required" placeholder="Username" th:value="${account.getUsername()}">
+        <br>
+        <input type="text" class="form-control elForm" name="password" th:required="required" th:value="${account.getPassword()}" hidden="hidden">
+        <button type="submit" class="btn btn-primary submit">Modifica</button>
+    </form>
+</div>
+
+<br><br><br><br><br><br>
+</body>
+</html>

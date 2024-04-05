@@ -109,4 +109,15 @@ public class UtenteAutenticato {
     public void setProdottiList(List<Prodotto> prodottiList) {
         this.prodottiList = prodottiList;
     }
+
+    @Override
+    public String toString() {
+        return "UtenteAutenticato{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", nascita=" + nascita +
+                ", indirizzo='" + indirizzo + '\'' +
+                '}';
+    }
 }

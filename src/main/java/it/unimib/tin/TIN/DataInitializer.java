@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN;
 import it.unimib.tin.TIN.model.Account;
+import it.unimib.tin.TIN.model.CartaDiCredito;
 import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
@@ -38,7 +39,10 @@ public class DataInitializer implements CommandLineRunner {
         if(arepo.count() == 0 && uarepo.count() == 0){
             Account a = new Account("admin", "aaa@aaa.com", "admin");
             UtenteAutenticato ua = new UtenteAutenticato("admin", "admin", new Date(), "Via Admin");
+            CartaDiCredito c = new CartaDiCredito("1234123412341234", "123", "Admin");
             ua.setAccount(a);
+            ua.setCc(c);
+            c.setUtente(ua);
             a.setUser(ua);
             arepo.save(a);
             uarepo.save(ua);

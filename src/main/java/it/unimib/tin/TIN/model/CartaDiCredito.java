@@ -74,4 +74,14 @@ public class CartaDiCredito {
     public void setUtente(UtenteAutenticato utente) {
         this.utente = utente;
     }
+
+    @Override
+    public String toString() {
+        return "CartaDiCredito{" +
+                "id=" + id +
+                ", numero='" + numero + '\'' +
+                ", cvv='" + cvv + '\'' +
+                ", nomeProprietario='" + nomeProprietario + '\'' +
+                '}';
+    }
 }
