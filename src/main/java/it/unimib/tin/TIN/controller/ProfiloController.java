@@ -87,7 +87,6 @@ public class ProfiloController {
             return new RedirectView("/error");
         }
         utenteAutenticatoRepository.save(uorigin);
-        //cartaDiCreditoRepository.save(c);
         return new RedirectView("/success");
     }
 }

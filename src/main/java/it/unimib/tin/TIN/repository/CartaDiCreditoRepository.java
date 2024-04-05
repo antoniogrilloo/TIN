@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface CartaDiCreditoRepository extends JpaRepository<CartaDiCredito, String> {
 
+    Optional<CartaDiCredito> findById(Long id);
+
     Optional<CartaDiCredito> findByNumero(String numero);
 }
