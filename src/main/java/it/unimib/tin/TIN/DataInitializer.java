@@ -4,6 +4,7 @@ import it.unimib.tin.TIN.model.CartaDiCredito;
 import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
+import it.unimib.tin.TIN.repository.CartaDiCreditoRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private UtenteAutenticatoRepository uarepo;
+
+    @Autowired
+    private CartaDiCreditoRepository cartaDiCreditoRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -46,6 +51,7 @@ public class DataInitializer implements CommandLineRunner {
             a.setUser(ua);
             arepo.save(a);
             uarepo.save(ua);
+            cartaDiCreditoRepository.save(c);
         }
 
     }

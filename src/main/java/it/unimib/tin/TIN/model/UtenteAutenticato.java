@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN.model;
 
+import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -108,6 +109,16 @@ public class UtenteAutenticato {
 
     public void setProdottiList(List<Prodotto> prodottiList) {
         this.prodottiList = prodottiList;
+    }
+
+    public void updateInfo(UtenteAutenticato updatedUser, CartaDiCredito updatedCC) throws CartaDiCreditoException {
+        this.setNome(updatedUser.nome);
+        this.setCognome(updatedUser.cognome);
+        this.setIndirizzo(updatedUser.indirizzo);
+        this.setNascita(updatedUser.nascita);
+        this.cc.setNomeProprietario(updatedCC.getNomeProprietario());
+        this.cc.setCvv(updatedCC.getCvv());
+        this.cc.setNumero(updatedCC.getNumero());
     }
 
     @Override

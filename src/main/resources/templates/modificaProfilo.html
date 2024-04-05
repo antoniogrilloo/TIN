@@ -75,16 +75,6 @@
         <br>
         <input type="text" class="form-control elForm" name="nomeProprietario" th:required="required" placeholder="Proprietario" th:value="${cc.getNomeProprietario()}">
         <br>
-        <h3 class="textDesc">Dati account</h3>
-        <input type="text" class="form-control elForm" name="id" th:required="required" th:value="${account.getId()}" hidden="hidden">
-        <label class="text1Form">Email: </label>
-        <br>
-        <input type="email" class="form-control elForm" name="email" th:required="required" placeholder="Email" th:value="${account.getEmail()}">
-        <label class="text1Form">Username: </label>
-        <br>
-        <input type="text" class="form-control elForm" name="username" th:required="required" placeholder="Username" th:value="${account.getUsername()}">
-        <br>
-        <input type="text" class="form-control elForm" name="password" th:required="required" th:value="${account.getPassword()}" hidden="hidden">
         <button type="submit" class="btn btn-primary submit">Modifica</button>
     </form>
 </div>

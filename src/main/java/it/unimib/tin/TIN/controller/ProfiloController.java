@@ -1,10 +1,12 @@
 package it.unimib.tin.TIN.controller;
 
+import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.CartaDiCredito;
 import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
+import it.unimib.tin.TIN.repository.CartaDiCreditoRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.security.core.Authentication;
@@ -27,12 +29,15 @@ public class ProfiloController {
 
     private CategoriaRepository crepo;
 
+    private CartaDiCreditoRepository cartaDiCreditoRepository;
+
     private AccountRepository arepo;
 
-    public ProfiloController(UtenteAutenticatoRepository utenteAutenticatoRepository, CategoriaRepository crepo, AccountRepository arepo) {
+    public ProfiloController(UtenteAutenticatoRepository utenteAutenticatoRepository, CategoriaRepository crepo, AccountRepository arepo, CartaDiCreditoRepository cartaDiCreditoRepository) {
         this.arepo = arepo;
         this.utenteAutenticatoRepository = utenteAutenticatoRepository;
         this.crepo = crepo;
+        this.cartaDiCreditoRepository = cartaDiCreditoRepository;
     }
 
     @GetMapping("/user/{user_id}")
@@ -74,9 +79,15 @@ public class ProfiloController {
 
     @PostMapping("/protected/user/aggiornaProfilo")
     public RedirectView aggiornaProfilo(@ModelAttribute UtenteAutenticato user, @ModelAttribute Account a, @ModelAttribute CartaDiCredito c) {
-        System.out.println(user);
-        System.out.println(a);
-        System.out.println(c);
+        Optional<UtenteAutenticato> opt = utenteAutenticatoRepository.findById(user.getId());
+        UtenteAutenticato uorigin = opt.orElse(null);
+        try {
+            uorigin.updateInfo(user, c);
+        } catch (NullPointerException | CartaDiCreditoException e) {
+            return new RedirectView("/error");
+        }
+        utenteAutenticatoRepository.save(uorigin);
+        //cartaDiCreditoRepository.save(c);
         return new RedirectView("/success");
     }
 }
