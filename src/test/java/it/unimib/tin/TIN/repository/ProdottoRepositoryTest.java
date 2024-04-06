@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class ProdottoRepositoryTests {
+public class ProdottoRepositoryTest {
 
     @Mock
     private ProdottoRepository prepo;
