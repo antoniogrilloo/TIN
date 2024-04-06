@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Prodotto {
@@ -103,6 +104,19 @@ public class Prodotto {
     @Override
     public String toString() {
         return id + " " + name + " " + price + " " + venditore.getAccount().getUsername() + " " + categoria.getNome();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prodotto prodotto = (Prodotto) o;
+        return Objects.equals(id, prodotto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

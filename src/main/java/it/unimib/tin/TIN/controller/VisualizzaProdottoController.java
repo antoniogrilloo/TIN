@@ -1,8 +1,12 @@
 package it.unimib.tin.TIN.controller;
 
+import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.Prodotto;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.*;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +23,12 @@ public class VisualizzaProdottoController {
 
     private UtenteAutenticatoRepository utenteAutenticatoRepository;
 
-    public VisualizzaProdottoController(ProdottoRepository prodottoRepository, UtenteAutenticatoRepository utenteAutenticatoRepository) {
+    private AccountRepository accountRepository;
+
+    public VisualizzaProdottoController(ProdottoRepository prodottoRepository, UtenteAutenticatoRepository utenteAutenticatoRepository, AccountRepository accountRepository) {
         this.prodottoRepository = prodottoRepository;
         this.utenteAutenticatoRepository = utenteAutenticatoRepository;
+        this.accountRepository = accountRepository;
     }
 
     @GetMapping("/prodotto/{idProdotto}")
@@ -42,15 +49,23 @@ public class VisualizzaProdottoController {
         return maw;
     }
 
-    @PostMapping("/user/eliminaProdotto/{idUser}")
-    public RedirectView eliminaProdotto(@PathVariable Long idUser, @RequestParam Long idProdotto) {
-        Optional<UtenteAutenticato> utente = utenteAutenticatoRepository.findById(idUser);
-        Optional<Prodotto> prodotto = prodottoRepository.findById(idProdotto);
-        if(utente.isPresent() && prodotto.isPresent()) {
-            utente.get().deleteProdotto(prodotto.get());
-            utenteAutenticatoRepository.save(utente.get());
-            prodottoRepository.delete(prodotto.get());
+    @PostMapping("/protected/eliminaProdotto/{idProdotto}")
+    public RedirectView eliminaProdotto(@PathVariable Long idProdotto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Account> account = accountRepository.findByUsername(authentication.getName());
+        if (account.isEmpty()){
+            return new RedirectView("/error");
         }
-        return new RedirectView("/user/" + idUser);
+        UtenteAutenticato utente = account.get().getUser();
+        Optional<Prodotto> prodotto = prodottoRepository.findById(idProdotto);
+        if (prodotto.isEmpty()){
+            return new RedirectView("/error");
+        }
+        utente.deleteProdotto(prodotto.get());
+        utenteAutenticatoRepository.save(utente);
+        Prodotto p = prodotto.get();
+        prodottoRepository.delete(p);
+
+        return new RedirectView("/user/" + utente.getId());
     }
 }

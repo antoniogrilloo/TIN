@@ -111,6 +111,8 @@ public class UtenteAutenticato {
     }
 
     public void deleteProdotto(Prodotto p) {
+        p.setVenditore(null);
+        p.setCategoria(null);
         this.prodottiList.remove(p);
     }
 }

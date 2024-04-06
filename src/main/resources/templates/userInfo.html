@@ -64,8 +64,7 @@
                 </div></a>
             </td>
             <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()}">
-                <form method="POST" th:action="@{/user/eliminaProdotto/{id}(id = ${user.getId()})}">
-                    <input type="hidden" th:value="${prodotto.getId()}" name="idProdotto">
+                <form method="POST" th:action="@{/protected/eliminaProdotto/{id_prod}(id_prod = ${prodotto.getId()})}">
                     <button  class="deleteButt" type="submit"><i class="fa-solid fa-trash"></i></button>
                 </form>
             </td>
