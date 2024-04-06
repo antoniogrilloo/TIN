@@ -37,17 +37,21 @@
     </div>
 </nav>
 
-
-
 <div id="main">
     <h1 class="text">Benvenuto <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1><br>
 </div>
-
 <div class="container mt-5 padding1">
-    <form th:action="@{/user/{id}(id = ${user.get().getId()})}" method="get">
+    <form class="inline-form" th:action="@{/user/{id}(id = ${user.get().getId()})}" method="get">
         <button class="btn btn-primary submit" type="submit">Profilo</button>
     </form>
+    <form class="inline-form" th:action="@{/protected/aggiungiProdotto}" method="get">
+        <button class="btn btn-primary submit" type="submit">Aggiungi Prodotto</button>
+    </form>
+    <form class="inline-form" th:action="@{/protected/user/modificaProfilo}" method="get">
+        <button class="btn btn-primary submit" type="submit">Modifica Profilo</button>
+    </form>
 </div>
+
 
 </body>
 </html>
