@@ -49,7 +49,7 @@ public class ProfiloController {
             page = "userInfo";
             List<Categoria> categories = crepo.findAll();
             maw.addObject("categories", categories);
-            maw.addObject("user", user);
+            maw.addObject("user", user.get());
             maw.addObject("confirm", false);
         } else {
             page = "error";
