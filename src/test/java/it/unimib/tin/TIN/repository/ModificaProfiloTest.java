@@ -3,11 +3,13 @@ package it.unimib.tin.TIN.repository;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.model.CartaDiCredito;
+import jakarta.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.Date;
 import java.util.Optional;
@@ -25,6 +27,8 @@ public class ModificaProfiloTest {
     private CartaDiCreditoRepository cartaDiCreditoRepository;
 
     @Test
+    @Transactional
+    @Rollback
     public void testModifyBiographicData() {
         // Simulazione della modifica dei dati biografici
         String newName = "NuovoNome";
@@ -51,6 +55,8 @@ public class ModificaProfiloTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void testModifyPaymentData() throws CartaDiCreditoException {
         // Simulazione della modifica dei dati di pagamento
         String newCreditCardNumber = "0000000000000000";
