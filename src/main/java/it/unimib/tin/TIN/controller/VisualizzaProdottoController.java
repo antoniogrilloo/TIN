@@ -1,6 +1,7 @@
 package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.model.Account;
+import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.*;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,10 +28,12 @@ public class VisualizzaProdottoController {
 
     private AccountRepository accountRepository;
 
-    public VisualizzaProdottoController(ProdottoRepository prodottoRepository, UtenteAutenticatoRepository utenteAutenticatoRepository, AccountRepository accountRepository) {
+    private ImmagineRepository immagineRepository;
+    public VisualizzaProdottoController(ProdottoRepository prodottoRepository, UtenteAutenticatoRepository utenteAutenticatoRepository, AccountRepository accountRepository, ImmagineRepository immagineRepository) {
         this.prodottoRepository = prodottoRepository;
         this.utenteAutenticatoRepository = utenteAutenticatoRepository;
         this.accountRepository = accountRepository;
+        this.immagineRepository = immagineRepository;
     }
 
     @GetMapping("/prodotto/{idProdotto}")
@@ -61,11 +66,27 @@ public class VisualizzaProdottoController {
         if (prodotto.isEmpty()){
             return new RedirectView("/error");
         }
+
         utente.deleteProdotto(prodotto.get());
         utenteAutenticatoRepository.save(utente);
         Prodotto p = prodotto.get();
+        List<Immagine> img = p.getImmagineList();
+
+        for (Immagine elemento : img) {
+            immagineRepository.delete(elemento);
+            eliminaImmagine("./src/main/resources/static/images/", elemento.getUrl());
+
+        }
+
         prodottoRepository.delete(p);
 
         return new RedirectView("/user/" + utente.getId());
+    }
+
+    public static void eliminaImmagine(String percorsoCartella, String nomeImmagine) {
+        File immagine = new File(percorsoCartella, nomeImmagine);
+        if (immagine.exists() && immagine.isFile()) {
+            immagine.delete();
+        }
     }
 }
