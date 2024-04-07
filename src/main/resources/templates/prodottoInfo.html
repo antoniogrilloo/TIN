@@ -81,7 +81,7 @@
 </div>
 <br>
 <div class="padding">
-    <label class="textInfoProd" th:text="${prodotto.getVenditore().getAccount().getUsername()}">Descrizione</label>
+    <a class="textInfoProd" th:href="@{'/user/' + ${prodotto.getVenditore().getId()}}" th:text="${prodotto.getVenditore().getAccount().getUsername()}">Venditore</a>
 </div>
 <br>
 <br>
