@@ -4,13 +4,15 @@ import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
 
+import it.unimib.tin.TIN.model.UtenteAutenticato;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -22,11 +24,12 @@ public class ProdottoRepositoryTest {
 
     @Mock
     private ProdottoRepository prepo;
-
     @Mock
     private ImmagineRepository irepo;
     @Mock
     private CategoriaRepository crepo;
+    @Mock
+    private UtenteAutenticatoRepository urepo;
 
     @Test
     public void testFindById(){
@@ -50,6 +53,7 @@ public class ProdottoRepositoryTest {
         updatedProd.setId(prodId);
         when(prepo.findById(prodId)).thenReturn(Optional.of(existingProd));
         when(prepo.save(updatedProd)).thenReturn(updatedProd);
+
 
         Prodotto result = prepo.save(updatedProd);
 
@@ -104,5 +108,30 @@ public class ProdottoRepositoryTest {
         assertEquals(p.getDescription(), result.get().getDescription());
         assertEquals(p.getPrice(), result.get().getPrice(), 0);
         assertEquals(p.getCategoria(), result.get().getCategoria());
+    }
+
+    @Test
+    public void testDeleteProductForUser() {
+        UtenteAutenticato ua = new UtenteAutenticato("utente", "utente", new Date(), "via utente");
+        Prodotto p = new Prodotto("Prodotto", "Descrizione prodotto", 99.0);
+        long userId = 1L;
+        long productId = 100L;
+
+        ua.setId(userId);
+        p.setId(productId);
+        p.setVenditore(ua);
+        List<Prodotto> pList = new ArrayList<>();
+        ua.setProdottiList(pList);
+        ua.getProdottiList().add(p);
+
+        when(urepo.findById(userId)).thenReturn(Optional.of(ua));
+        when(prepo.findById(productId)).thenReturn(Optional.of(p));
+
+        ua.deleteProdotto(p);
+
+        assertEquals(0, ua.getProdottiList().size());
+        assertFalse(ua.getProdottiList().contains(p));
+        assertFalse(prepo.existsById(productId));
+
     }
 }
