@@ -49,7 +49,7 @@
 <div class="image-list">
     <div class="image-card">
         <div th:each=" imageUrl: ${prodotto.getImmagineList()}" class="image-container">
-            <img th:src="@{'/images/' + ${imageUrl.getUrl()}}" th:alt="${imageUrl.getUrl()}" />
+            <img th:src="@{'/img/' + ${imageUrl.getUrl()}}" th:alt="${imageUrl.getUrl()}" />
         </div>
     </div>
 </div>

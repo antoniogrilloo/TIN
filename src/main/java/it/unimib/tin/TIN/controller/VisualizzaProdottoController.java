@@ -6,6 +6,10 @@ import it.unimib.tin.TIN.model.Prodotto;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.*;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +49,8 @@ public class VisualizzaProdottoController {
         Optional<Prodotto> p = this.prodottoRepository.findById(idProdotto);
         if(p.isPresent()){
             maw = buildInfoProdottoPage(p.get(), false);
+        } else{
+            maw.setViewName("error");
         }
         return maw;
     }
@@ -74,7 +83,7 @@ public class VisualizzaProdottoController {
 
         for (Immagine elemento : img) {
             immagineRepository.delete(elemento);
-            eliminaImmagine("./src/main/resources/static/images/", elemento.getUrl());
+            eliminaImmagine("./img/", elemento.getUrl());
 
         }
 
@@ -89,4 +98,23 @@ public class VisualizzaProdottoController {
             immagine.delete();
         }
     }
+
+    @GetMapping(value = "/img/{name}")
+    public ResponseEntity<Resource> getImg(@PathVariable String name){
+        ByteArrayResource inputStream = null;
+        try {
+            inputStream = new ByteArrayResource(Files.readAllBytes(Paths.get(
+                    "./img/" + name
+            )));
+        } catch (IOException e) {
+            return null;
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentLength(inputStream.contentLength())
+                .body(inputStream);
+    }
+
+
+
 }
