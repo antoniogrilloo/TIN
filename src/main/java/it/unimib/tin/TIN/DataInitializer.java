@@ -6,17 +6,16 @@ import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.AccountRepository;
 import it.unimib.tin.TIN.repository.CartaDiCreditoRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
+import it.unimib.tin.TIN.repository.ProdottoRepository;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
-
-    @Autowired
-    private CategoriaRepository carepo;
 
     @Autowired
     private AccountRepository arepo;
@@ -27,18 +26,21 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private CartaDiCreditoRepository cartaDiCreditoRepository;
 
+    @Autowired
+    private CategoriaRepository crepo;
+
     @Override
     public void run(String... args) throws Exception {
 
-        if (carepo.count() == 0){
-            carepo.save(new Categoria("ELETTRONICA"));
-            carepo.save(new Categoria("ABBIGLIAMENTO"));
-            carepo.save(new Categoria("CASA"));
-            carepo.save(new Categoria("LIBRI"));
-            carepo.save(new Categoria("MEDIA"));
-            carepo.save(new Categoria("BAMBINI"));
-            carepo.save(new Categoria("ANIMALI"));
-            carepo.save(new Categoria("HOBBY"));
+        if (crepo.count() == 0){
+            crepo.save(new Categoria("ELETTRONICA"));
+            crepo.save(new Categoria("ABBIGLIAMENTO"));
+            crepo.save(new Categoria("CASA"));
+            crepo.save(new Categoria("LIBRI"));
+            crepo.save(new Categoria("MEDIA"));
+            crepo.save(new Categoria("BAMBINI"));
+            crepo.save(new Categoria("ANIMALI"));
+            crepo.save(new Categoria("HOBBY"));
         }
 
         if(arepo.count() == 0 && uarepo.count() == 0){

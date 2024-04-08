@@ -290,10 +290,23 @@ a{
     padding-left: 10%;
 }
 
+.padding1{
+    padding-left: 3.5%;
+}
+
 .textInfoProd{
     font-family: verdana;
     font-weight: 300;
     color: #f5f5f5;
     text-shadow:  0 4px 4px #101018;
+}
+
+.inline-form {
+    display: inline-block;
+    margin-right: 10px; /* Aggiungi margine destro tra i form */
+}
+
+.inline-form .btn {
+    display: inline-block;
 }
 

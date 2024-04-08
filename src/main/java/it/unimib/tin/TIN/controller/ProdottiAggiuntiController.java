@@ -48,6 +48,8 @@ public class ProdottiAggiuntiController {
     @GetMapping("/success")
     public ModelAndView successo() {
         ModelAndView m = new ModelAndView();
+        List<Categoria> categories = categoriaRepository.findAll();
+        m.addObject("categories", categories);
         m.setViewName("success");
         return m;
     }
@@ -75,7 +77,7 @@ public class ProdottiAggiuntiController {
         if(img3 != null && !img3.isEmpty()){
             saveImage(img3, prodotto);
         }
-        return new RedirectView("/success");
+        return new RedirectView("/user/" + prodotto.getVenditore().getId());
     }
 
 
@@ -91,10 +93,10 @@ public class ProdottiAggiuntiController {
     }
 
     public boolean uploadFile(MultipartFile uploadfile, String filename) {
-        if(new File("./src/main/resources/static/images/" + filename ).exists())
+        if(new File("./img/" + filename ).exists())
             return false;
         try {
-            String directory = "./src/main/resources/static/images/";
+            String directory = "./img/";
             String filepath = Paths.get(directory, filename).toString();
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
             stream.write(uploadfile.getBytes());

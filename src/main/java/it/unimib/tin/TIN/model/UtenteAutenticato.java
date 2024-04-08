@@ -121,6 +121,12 @@ public class UtenteAutenticato {
         this.cc.setNumero(updatedCC.getNumero());
     }
 
+    public void deleteProdotto(Prodotto p) {
+        p.setVenditore(null);
+        p.setCategoria(null);
+        this.prodottiList.remove(p);
+    }
+
     @Override
     public String toString() {
         return "UtenteAutenticato{" +

@@ -2,12 +2,15 @@ package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
+import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.Categoria;
+import it.unimib.tin.TIN.repository.AccountRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
 import org.springframework.security.core.Authentication;
 import it.unimib.tin.TIN.model.RegistraUtenteForm;
 import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,9 +26,12 @@ public class RegistrazioneController {
 
     private CategoriaRepository crepo;
 
-    public RegistrazioneController(UtenteAutenticatoRepository urepo, CategoriaRepository crepo) {
+    private AccountRepository arepo;
+
+    public RegistrazioneController(UtenteAutenticatoRepository urepo, CategoriaRepository crepo, AccountRepository arepo) {
         this.urepo = urepo;
         this.crepo = crepo;
+        this.arepo = arepo;
     }
 
     @RequestMapping("/")
@@ -89,6 +95,11 @@ public class RegistrazioneController {
     public ModelAndView homepage() {
         ModelAndView maw = new ModelAndView("homepage");
         List<Categoria> categories = crepo.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<Account> accountUser = arepo.findByUsername(username);
+        Optional<UtenteAutenticato> user = urepo.findById(accountUser.get().getId());
+        maw.addObject("user", user);
         maw.addObject("categories", categories);
         return maw;
     }
