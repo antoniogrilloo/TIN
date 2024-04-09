@@ -63,7 +63,7 @@
                     <div class="textPerc" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + ' | PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
                 </div></a>
             </td>
-            <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()}">
+            <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getAccount().getUsername()}">
                 <form method="POST" th:action="@{/protected/eliminaProdotto/{id_prod}(id_prod = ${prodotto.getId()})}">
                     <button  class="deleteButt" type="submit"><i class="fa-solid fa-trash"></i></button>
                 </form>
