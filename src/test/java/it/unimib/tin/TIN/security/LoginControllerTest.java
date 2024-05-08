@@ -79,7 +79,7 @@ public class LoginControllerTest {
 
     @Test
     public void testAccessProtectedEndpointWithValidUser() throws Exception {
-        mockMvc.perform(get("/protected").with(user("username").password("password")))
+        mockMvc.perform(get("/protected").with(user("admin").password("admin")))
                 .andExpect(status().isOk());
     }
 

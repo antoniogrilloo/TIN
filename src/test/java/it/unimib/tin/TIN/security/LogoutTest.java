@@ -54,4 +54,27 @@ public class LogoutTest {
         mockMvc.perform(formLogin())
                 .andExpect(SecurityMockMvcResultMatchers.unauthenticated());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void testLogout2() throws Exception {
+        // Effettua il login
+        mockMvc.perform(formLogin().loginProcessingUrl("/").user("aaa@aaa.com").password("admin"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/protected"))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated().withUsername("admin"));
+
+        // Verifica che l'utente sia effettivamente autenticato
+        mockMvc.perform(formLogin().loginProcessingUrl("/").user("aaa@aaa.com").password("admin"))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated().withUsername("admin"));
+
+        // Effettua il logout
+        mockMvc.perform(logout())
+                .andExpect(redirectedUrlPattern("/?logout"));
+
+        // Verifica che l'utente non sia più autenticato
+        mockMvc.perform(formLogin())
+                .andExpect(SecurityMockMvcResultMatchers.unauthenticated());
+    }
 }
