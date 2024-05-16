@@ -1,4 +1,5 @@
 # File .gitlab-ci.yml
+image: maven:3.8.6-openjdk-18-slim
 
 stages:
   - validate
