@@ -7,6 +7,32 @@ stages:
   - test
   - deploy
 
+services:
+  - name: mysql:8.0
+    alias: mysql
+    command:
+      - --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: Grillo_00
+      MYSQL_DATABASE: db_tin
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: Grillo_00
+
+variables:
+  MYSQL_HOST: mysql
+  MYSQL_PORT: 3306
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_tin
+  SPRING_DATASOURCE_USERNAME: springuser
+  SPRING_DATASOURCE_PASSWORD: Grillo_00
+connect:
+  image: mysql
+  script:
+    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
+
+before_script:
+  - echo "Waiting for MySQL to be ready..."
+  - until mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
+
 build:
   stage: build
   script:
