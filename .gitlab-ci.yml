@@ -30,6 +30,7 @@ connect:
     - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
 
 before_script:
+  - apt-get update && apt-get install -y default-mysql-client
   - echo "Waiting for MySQL to be ready..."
   - until mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
   - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
