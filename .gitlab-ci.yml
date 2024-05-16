@@ -10,17 +10,17 @@ validate:
   stage: validate
   script:
     - mvn validate
-  rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
+  #rules:
+   # - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
 
 test_and_generate_docs:
   stage: test
   script:
     - mvn test
     #- mvn javadoc:javadoc # Inserire istruzione per gen doc
-  rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+ # rules:
+ #   - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
+  #  - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
 
 deploy:
   stage: deploy
