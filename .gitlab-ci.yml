@@ -10,7 +10,7 @@ stages:
 build:
   stage: build
   script:
-    - mvn clean install
+    - mvn compile
 
 validate:
   stage: validate
