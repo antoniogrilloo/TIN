@@ -24,11 +24,6 @@ variables:
   SPRING_DATASOURCE_USERNAME: springuser
   SPRING_DATASOURCE_PASSWORD: Grillo_00
 
-connect:
-  image: mysql
-  script:
-    - echo "SELECT 'OK';" | mysql --user=root --password="$MYSQL_ROOT_PASSWORD" --host=mysql "$MYSQL_DATABASE"
-
 before_script:
   - apt-get update && apt-get install -y default-mysql-client
   - echo "Waiting for MySQL to be ready..."
