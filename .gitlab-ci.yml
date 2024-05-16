@@ -2,9 +2,15 @@
 image: maven:3.8.6-openjdk-18-slim
 
 stages:
+  - build
   - validate
   - test
   - deploy
+
+build:
+  stage: build
+  script:
+    - mvn clean install
 
 validate:
   stage: validate
