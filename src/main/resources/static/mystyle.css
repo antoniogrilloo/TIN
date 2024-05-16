@@ -1,6 +1,72 @@
+.container {
+    margin-top: 10%;
+}
+
+.containerBottoniProfilo{
+    width: 500px;
+    height: 500px;
+    position: relative;
+}
+
+.containerSinistra{
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10%;
+    padding-left: 13%;
+
+}
+
+.containerDestra{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerProfilo{
+    display: flex;
+    margin-top: 7%;
+}
+
+.imageTin {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.formLogin {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 body{
-    background-color: #2e2e36;
+    background-color: #e7e8d1;
+    width: auto;
+    height: auto;
+}
+
+.labelTin{
+    font-family: "Bungee Shade", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #b85042;
+    font-size: 250px;
+}
+
+.custom-btn {
+    background-color:  #a7beae;
+    color: #b85042;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+}
+
+
+body{
+    background-color: #e7e8d1;
     width: auto;
     height: auto;
 }
@@ -248,6 +314,8 @@ a{
 .elForm{
     width: 340px;
     text-align:left;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
 }
 
 .textDesc{
