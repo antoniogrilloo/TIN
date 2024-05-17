@@ -66,7 +66,7 @@ generate-swagger-docs:
   stage: docs
   image: openjdk:11
   script:
-    - git clone https://gitlab.com/a.grillo22/tin.git
+    - git clone a.grillo22/tin.git
     - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
     - cd tin
     - ./gradlew bootRun &
