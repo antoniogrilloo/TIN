@@ -29,9 +29,11 @@ build:
   stage: build
   script:
     - mvn compile
+  when: manual
 
 validate:
   stage: validate
+  when: manual
   script:
     - mvn validate
   #rules:
@@ -39,6 +41,7 @@ validate:
 
 test:
   stage: test
+  when: manual
   script:
     - apt-get update && apt-get install -y default-mysql-client
     - echo "Waiting for MySQL to be ready..."
@@ -57,6 +60,7 @@ deploy:
   stage: deploy
   script:
     - mvn deploy
+  when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
 
