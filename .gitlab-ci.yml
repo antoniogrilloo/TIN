@@ -5,7 +5,7 @@ stages:
   - build
   - validate
   - test
-  - doc
+  - docs
   - deploy
 
 services:
