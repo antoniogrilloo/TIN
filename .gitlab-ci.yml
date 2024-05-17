@@ -25,15 +25,6 @@ variables:
   SPRING_DATASOURCE_USERNAME: springuser
   SPRING_DATASOURCE_PASSWORD: Grillo_00
 
-before_script:
-  - apt-get update && apt-get install -y default-mysql-client
-  - echo "Waiting for MySQL to be ready..."
-  - until mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
-
 build:
   stage: build
   script:
@@ -49,6 +40,13 @@ validate:
 test:
   stage: test
   script:
+    - apt-get update && apt-get install -y default-mysql-client
+    - echo "Waiting for MySQL to be ready..."
+    - until mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
     #- mvn javadoc:javadoc # Inserire istruzione per gen doc
  # rules:
@@ -66,7 +64,7 @@ generate-swagger-docs:
   stage: docs
   image: openjdk:11
   script:
-    - git clone a.grillo22/tin.git
+    - git clone $REPO_URL
     - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
     - cd tin
     - ./gradlew bootRun &
