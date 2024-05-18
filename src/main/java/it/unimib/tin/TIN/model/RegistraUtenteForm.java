@@ -43,6 +43,7 @@ public class RegistraUtenteForm {
         UtenteAutenticato u = new UtenteAutenticato(nome, cognome, nascita, indirizzo);
         CartaDiCredito cc = this.getCC();
         Account a = this.getAccount();
+        a.setEnabled(false);
         u.setCc(cc);
         cc.setUtente(u);
         u.setAccount(a);

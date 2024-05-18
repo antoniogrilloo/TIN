@@ -22,6 +22,8 @@ public class Account {
 
     private String password;
 
+    private boolean enabled;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "u_id")
     private UtenteAutenticato user;
@@ -90,5 +92,13 @@ public class Account {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

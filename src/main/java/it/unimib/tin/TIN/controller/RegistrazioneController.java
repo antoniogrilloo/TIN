@@ -1,23 +1,24 @@
 package it.unimib.tin.TIN.controller;
 
+import it.unimib.tin.TIN.email.EmailService;
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
-import it.unimib.tin.TIN.model.Account;
-import it.unimib.tin.TIN.model.Categoria;
+import it.unimib.tin.TIN.model.*;
 import it.unimib.tin.TIN.repository.AccountRepository;
 import it.unimib.tin.TIN.repository.CategoriaRepository;
+import it.unimib.tin.TIN.repository.VerificationTokenRepository;
 import org.springframework.security.core.Authentication;
-import it.unimib.tin.TIN.model.RegistraUtenteForm;
-import it.unimib.tin.TIN.model.UtenteAutenticato;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class RegistrazioneController {
@@ -28,10 +29,16 @@ public class RegistrazioneController {
 
     private AccountRepository arepo;
 
-    public RegistrazioneController(UtenteAutenticatoRepository urepo, CategoriaRepository crepo, AccountRepository arepo) {
+    private EmailService emailService;
+
+    private VerificationTokenRepository vtrepo;
+
+    public RegistrazioneController(UtenteAutenticatoRepository urepo, CategoriaRepository crepo, AccountRepository arepo, EmailService emailService, VerificationTokenRepository vtrepo) {
         this.urepo = urepo;
         this.crepo = crepo;
         this.arepo = arepo;
+        this.emailService = emailService;
+        this.vtrepo = vtrepo;
     }
 
     @RequestMapping("/")
@@ -72,10 +79,31 @@ public class RegistrazioneController {
         try {
             u = form.getUtente();
             urepo.save(u);
+            String token = UUID.randomUUID().toString();
+            vtrepo.save(new VerificationToken(token, u.getAccount()));
+            String confirmationUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/confermaRegistrazione")
+                    .queryParam("token", token)
+                    .toUriString();
+            String message = "Per favore, clicca sul link per confermare la tua registrazione: " + confirmationUrl;
+            emailService.sendEmail(u.getAccount().getEmail(), "Conferma Registrazione", message);
         } catch (CartaDiCreditoException | AccountException e) {
             return new RedirectView("/error");
         }
         return new RedirectView("/confirm");
+    }
+
+    @GetMapping("/confermaRegistrazione")
+    public String confirmRegistration(@RequestParam("token") String token) {
+        VerificationToken verificationToken = vtrepo.findByToken(token);
+        if (verificationToken == null) {
+            return "error";
+        }
+        Account user = verificationToken.getUser();
+        user.setEnabled(true);
+        arepo.save(user);
+        vtrepo.deleteByToken(verificationToken.getToken());
+        return "success";
     }
 
     @GetMapping("/error")
