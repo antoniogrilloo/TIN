@@ -104,6 +104,7 @@ public class RegistrazioneController {
         Account user = verificationToken.getUser();
         user.setEnabled(true);
         arepo.save(user);
+        verificationToken.setUser(null);
         vtrepo.deleteByToken(verificationToken.getToken());
         return "success";
     }

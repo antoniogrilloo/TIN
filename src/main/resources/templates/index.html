@@ -51,7 +51,7 @@
         <input type="password" class="form-control elForm" name="password" th:required="required" placeholder="Password">
         <div style="color: red; font-size: small; margin: 15px 0">
             <div th:if="${param.error}">
-                Nome utente o password non valida.
+                Nome utente o password non valida, oppure non hai confermato la tua mail.
             </div>
             <div th:if="${param.logout}">
                 Hai effettuato il logout.

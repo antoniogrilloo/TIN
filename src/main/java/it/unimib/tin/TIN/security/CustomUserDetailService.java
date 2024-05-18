@@ -24,7 +24,7 @@ public class CustomUserDetailService implements UserDetailsService {
             a = arepo.findByUsername(username);
         }
 
-        if (a.isEmpty()) {
+        if (a.isEmpty() || !a.get().isEnabled()) {
             throw new UsernameNotFoundException("User not found");
         }
         return new CustomUserDetails(a.get());
