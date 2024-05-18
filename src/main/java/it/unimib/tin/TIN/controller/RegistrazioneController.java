@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -94,6 +95,7 @@ public class RegistrazioneController {
     }
 
     @GetMapping("/confermaRegistrazione")
+    @Transactional
     public String confirmRegistration(@RequestParam("token") String token) {
         VerificationToken verificationToken = vtrepo.findByToken(token);
         if (verificationToken == null) {
