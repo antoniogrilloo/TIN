@@ -88,6 +88,70 @@ nav{
     width:30px;
 }
 
+.custom-btn-profilo {
+    border-radius: 20px;
+    background-color: #b85042;
+    color: #ffffff;
+    font-size: 40px;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+}
+
+.navbar-text{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #ffffff;
+}
+
+.labelTitoli{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #b85042;
+    font-size: 80px;
+}
+
+.labelTitoli2{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #000000;
+    font-size: 40px;
+}
+
+.button-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.upper-button {
+    width: 500px;
+    height: 230px;
+
+}
+
+.lower-button {
+    position: absolute;
+    bottom: 0;
+}
+
+.lower-button.left {
+    left: 0;
+    width: 230px;
+    height: 230px;
+
+}
+
+.lower-button.right {
+    right: 0;
+    width: 230px;
+    height: 230px;
+}
+
 .deleteButt{
     background-color: #dc3545;
     border-width:0;
