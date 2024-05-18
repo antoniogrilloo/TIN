@@ -64,6 +64,7 @@ public class LoginControllerTest {
         Account user = new Account();
         user.setUsername(username);
         user.setPassword(password);
+        user.setEnabled(true);
         try {
             user.setEmail("s@s.ss");
         } catch (AccountException e) {
@@ -109,6 +110,22 @@ public class LoginControllerTest {
     @Test
     public void testFailedLoginWithUnknownUser() throws Exception {
         mockMvc.perform(formLogin().loginProcessingUrl("/").user("unknownuser").password("password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/?error"));
+    }
+
+    @Test
+    public void testFailedConfirmation() throws Exception {
+        String username = "user";
+        String password = "password";
+        UserDetails userDetails = new CustomUserDetails(new Account(username, "a@a.co", password));
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+
+        when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
+        when(authenticationManager.authenticate(authenticationToken)).thenThrow(new BadCredentialsException("Invalid credentials"));
+
+        mockMvc.perform(formLogin().loginProcessingUrl("/").user(username).password(password))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/?error"));
     }
