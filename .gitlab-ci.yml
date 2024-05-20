@@ -29,11 +29,9 @@ build:
   stage: build
   script:
     - mvn compile
-  when: manual
 
 validate:
   stage: validate
-  when: manual
   script:
     - mvn validate
   #rules:
@@ -41,7 +39,6 @@ validate:
 
 test:
   stage: test
-  when: manual
   script:
     - apt-get update && apt-get install -y default-mysql-client
     - echo "Waiting for MySQL to be ready..."
@@ -60,39 +57,5 @@ deploy:
   stage: deploy
   script:
     - mvn deploy
-  when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
-
-generate-swagger-docs:
-  stage: docs
-  image: openjdk:11
-  script:
-    - git clone $REPO_URL
-    - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
-    - cd tin
-    - ./gradlew bootRun &
-    - sleep 30  # Tempo per avviare l'applicazione Spring Boot
-    - curl -o swagger.json http://localhost:8080/v3/api-docs
-    - java -jar openapi-generator-cli.jar generate -i swagger.json -g html -o ./swagger-html
-  artifacts:
-    paths:
-      - swagger-html
-
-update-wiki:
-  stage: docs
-  image: alpine:latest
-  script:
-    - apk add git
-    - git config --global user.email "a.grillo22@campus.unimib.it"
-    - git config --global user.name "a.grillo22"
-    - git clone https://oauth2:$GITLAB_PRIVATE_TOKEN@gitlab.com/a.grillo22/tin.wiki.git
-    - cp -r swagger-html/* tin.wiki/
-    - cd tin.wiki
-    - git add .
-    - git commit -m "Aggiorna documentazione Swagger"
-    - git push origin master
-  only:
-    - main
-  dependencies:
-    - generate-swagger-docs
