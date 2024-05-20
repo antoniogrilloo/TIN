@@ -239,13 +239,12 @@ nav{
     margin-left: 10%;
     padding-left: 0%;
     padding-right: 6%;
-    background-color: #fff;
     border-radius: 20px;
-    font-family: verdana;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
     text-align: center;
     font-size:25px;
-    font-weight: 600;
-    background-color: #2e2e36;
+    background-color: #e7e8d1;
 }
 .formCardRicPerc{
     margin-left: 10%;
@@ -455,10 +454,71 @@ a{
 
 .inline-form {
     display: inline-block;
-    margin-right: 10px; /* Aggiungi margine destro tra i form */
+    margin-right: 10px;
 }
 
 .inline-form .btn {
     display: inline-block;
 }
 
+.nuovoProdLeft {
+    min-width: 340px;
+}
+
+.nuovoProdWrapper {
+    display: flex;
+}
+
+.nuovoProdLeft,
+.nuovoProdCenter,
+.nuovoProdRight {
+    flex: 1;
+    margin-right: 100px;
+}
+
+#drop1{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-size:16px;
+    width: 340px;
+    height: 38px;
+    border-color: rgb(206, 212, 218);
+    border-radius: 4px;
+}
+
+.mainErrore {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.labelErrore{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #b85042;
+    font-size: 200px;
+}
+
+.labelErrore2{
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #000000;
+    font-size: 30px;
+}
+
+.modificaWrapper {
+    display: flex;
+}
+
+.modificaLeft,
+.modificaRight {
+    flex: 1;
+}
+
+.modificaLeft {
+    margin-right: 200px;
+}
