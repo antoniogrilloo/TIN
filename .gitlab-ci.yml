@@ -59,3 +59,23 @@ deploy:
     - mvn deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+
+
+generate-swagger-docs:
+  stage: docs
+  image: maven:3.8.6-openjdk-18-slim
+  script:
+    - apt-get update && apt-get install -y curl wget git
+    - git clone -b task_9 "https://oauth2:glpat-LZtQfZ1Zic-8SqBjQX4-@gitlab.com/a.grillo22/tin.git"
+    - cd tin
+    - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
+    - mvn spring-boot:run &
+    - sleep 30  # Tempo per avviare l'applicazione Spring Boot
+    - curl -o swagger.json http://localhost:8080/v3/api-docs
+    - curl -v http://localhost:8080/swagger-ui/index.html
+    - curl -v http://localhost:8080/success
+    - head -4 swagger.json
+    - java -jar openapi-generator-cli.jar generate -i swagger.json -g html -o ./swagger-html
+  artifacts:
+    paths:
+      - swagger-html
