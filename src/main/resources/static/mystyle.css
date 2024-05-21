@@ -522,3 +522,56 @@ a{
 .modificaLeft {
     margin-right: 200px;
 }
+
+
+.labelDescrizione{
+    max-width: 600px;
+    overflow: hidden;
+    word-wrap: break-word;
+    display: inline-block;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-size:20px;
+}
+
+.profiloWrapper {
+    display: flex;
+    padding-left: 6%;
+}
+
+.profiloLeft, .profiloRight {
+    flex: 1;
+}
+
+.venditore-wrapper {
+    display: flex;
+    align-items: center; /* Per allineare verticalmente il contenuto */
+}
+
+.venditore-wrapper label,
+.venditore-wrapper a {
+    margin-right: 10px; /* Aggiungi spazio tra i due elementi */
+}
+
+.image-container {
+    display: inline-block;
+    margin-right: 10px;
+}
+.image-container img {
+    max-width: 400px;
+    max-height: 400px;
+}
+.image-list {
+    display: flex;
+    justify-content: center;
+}
+.image-card {
+    background-color: #ffffff;
+    padding: 20px 10px 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: inline-flex;
+    max-width: calc(100% - 20px);
+    overflow-x: auto;
+}
