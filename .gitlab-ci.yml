@@ -80,7 +80,6 @@ generate-swagger-docs:
     - sleep 30  # Tempo per avviare l'applicazione Spring Boot
     - curl -o swagger.json http://localhost:8080/v3/api-docs
     - redoc-cli bundle -o index.html swagger.json
-    - mv index.html tin/public
     - git config --global user.email "a.grillo22@campus.unimib.it"
     - git config --global user.name "a.grillo22"
     - cd tin
