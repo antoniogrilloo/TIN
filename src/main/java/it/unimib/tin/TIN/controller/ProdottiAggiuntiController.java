@@ -1,5 +1,9 @@
 package it.unimib.tin.TIN.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.unimib.tin.TIN.model.*;
 import it.unimib.tin.TIN.repository.*;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Tag(name = "ProdottiAggiuntiController", description = "Operazioni per permettere l'aggiunta dei prodotti nel sistema")
 public class ProdottiAggiuntiController {
     private AccountRepository accountRepository;
     private ProdottoRepository prodottoRepository;
@@ -36,6 +41,7 @@ public class ProdottiAggiuntiController {
         this.categoriaRepository = categoriaRepository;
     }
 
+    @Operation(summary = "Visualizza la pagina con il form per l'aggiunta di un nuovo prodotto.")
     @GetMapping("/protected/aggiungiProdotto")
     public ModelAndView nuovoProdotto() {
         ModelAndView m = new ModelAndView();
@@ -46,6 +52,10 @@ public class ProdottiAggiuntiController {
     }
 
     @GetMapping("/success")
+    @Operation(summary = "Visualizza una pagina di conferma operazione." )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Visualizza una pagina di conferma.")
+    })
     public ModelAndView successo() {
         ModelAndView m = new ModelAndView();
         List<Categoria> categories = categoriaRepository.findAll();
@@ -54,6 +64,7 @@ public class ProdottiAggiuntiController {
         return m;
     }
 
+    @Operation(summary = "Effettua l'aggiunta del prodotto in vendita, salvando e associando le immagini e la categoria scelta dall'utente.")
     @PostMapping("/protected/aggiungiProdotto")
     public RedirectView nuovoProdottoAggiunto(@RequestParam("img1") MultipartFile img1, @RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3, Prodotto prodotto,  @RequestParam("categoria1") String categoria) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -79,8 +90,6 @@ public class ProdottiAggiuntiController {
         }
         return new RedirectView("/user/" + prodotto.getVenditore().getId());
     }
-
-
 
     public void saveImage(MultipartFile img, Prodotto prodotto){
         Immagine im = new Immagine();

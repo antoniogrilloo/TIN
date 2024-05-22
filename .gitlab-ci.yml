@@ -5,6 +5,7 @@ stages:
   - build
   - validate
   - test
+  - docs
   - deploy
 
 services:
@@ -25,13 +26,7 @@ variables:
   SPRING_DATASOURCE_PASSWORD: Grillo_00
 
 before_script:
-  - apt-get update && apt-get install -y default-mysql-client
-  - echo "Waiting for MySQL to be ready..."
-  - until mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
-  - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
+  - apt-get update -qq && apt-get install -y build-essential curl
 
 build:
   stage: build
@@ -42,21 +37,48 @@ validate:
   stage: validate
   script:
     - mvn validate
-  #rules:
-   # - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
 
-test_and_generate_docs:
+test:
   stage: test
   script:
+    - apt-get update && apt-get install -y default-mysql-client
+    - echo "Waiting for MySQL to be ready..."
+    - until mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES;"; do echo "waiting for mysql"; sleep 1; done
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';"
+    - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
-    #- mvn javadoc:javadoc # Inserire istruzione per gen doc
- # rules:
- #   - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
-  #  - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
 
 deploy:
   stage: deploy
+  when: manual
   script:
     - mvn deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+    - if: '$CI_COMMIT_BRANCH =~ /^Sprint.*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+
+
+pages:
+  stage: docs
+  image: maven:3.8.6-openjdk-18-slim
+  before_script:
+    - apt-get update && apt-get install -y npm
+    - npm install -g redoc-cli
+  script:
+    - mvn spring-boot:run &
+    - sleep 30
+    - curl -o swagger.json http://localhost:8080/v3/api-docs
+    - redoc-cli bundle -o index.html swagger.json
+    - mkdir public
+    - mv index.html public/index.html
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+      when: on_success

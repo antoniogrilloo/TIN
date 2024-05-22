@@ -1,6 +1,8 @@
 package it.unimib.tin.TIN.controller;
 
 import it.unimib.tin.TIN.email.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import it.unimib.tin.TIN.model.*;
@@ -22,6 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
+@Tag(name = "RegistrazioneController", description = "Operazioni per la registrazione di un utente nel sistema.")
 public class RegistrazioneController {
 
     private UtenteAutenticatoRepository urepo;
@@ -42,6 +45,7 @@ public class RegistrazioneController {
         this.vtrepo = vtrepo;
     }
 
+    @Operation(summary = "Permette di visualizzare la pagina principale dell'applicazione. Se l'utente non è autenticato, verrà reindirizzato alla pagina che presenta il form di login; mentre, se fosse già autenticato, verrà reindirizzato alla pagina personalizzata per l'utente specifico.")
     @RequestMapping("/")
     public RedirectView index(Authentication authentication, @RequestParam(name = "error", required = false) String error,
                               @RequestParam(name = "logout", required = false) String logout) {
@@ -57,6 +61,7 @@ public class RegistrazioneController {
         return mv;
     }
 
+    @Operation(summary = "Ritorna la pagina di login.")
     @RequestMapping("/login")
     public ModelAndView login() {
         ModelAndView maw = new ModelAndView("index");
@@ -65,6 +70,7 @@ public class RegistrazioneController {
         return maw;
     }
 
+    @Operation(summary = "Permette di avviare la procedura di registrazione di un utente.")
     @GetMapping("/registrazione")
     public ModelAndView registrazione() {
         ModelAndView mv = new ModelAndView();
@@ -74,6 +80,7 @@ public class RegistrazioneController {
         return mv;
     }
 
+    @Operation(summary = "Aggiunge l'utente, con corrispettivo account e dati di carta di credito, sul sistema")
     @PostMapping("/registrazione")
     public RedirectView registra(@ModelAttribute RegistraUtenteForm form){
         UtenteAutenticato u;
@@ -94,6 +101,7 @@ public class RegistrazioneController {
         return new RedirectView("/confirm");
     }
 
+    @Operation(summary = "Conferma la mail dell'utente; accede a questo endpoint tramite email.")
     @GetMapping("/confermaRegistrazione")
     @Transactional
     public String confirmRegistration(@RequestParam("token") String token) {
@@ -109,11 +117,13 @@ public class RegistrazioneController {
         return "success";
     }
 
+    @Operation(summary = "Visualizza una generica pagina di errore.")
     @GetMapping("/error")
     public ModelAndView error() {
         return new ModelAndView("error");
     }
 
+    @Operation(summary = "Visualizza la pagina di conferma della autenticazione.")
     @GetMapping("/confirm")
     public ModelAndView confirmRegistration() {
         ModelAndView maw = new ModelAndView("registrazioneAvvenuta");
@@ -122,6 +132,7 @@ public class RegistrazioneController {
         return maw;
     }
 
+    @Operation(summary = "Visualizza la homepage dell'utente. È accessibile solo se si è autenticati.")
     @GetMapping("/protected")
     public ModelAndView homepage() {
         ModelAndView maw = new ModelAndView("homepage");

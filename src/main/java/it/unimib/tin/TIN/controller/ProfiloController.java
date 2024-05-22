@@ -1,5 +1,7 @@
 package it.unimib.tin.TIN.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.unimib.tin.TIN.exception.CartaDiCreditoException;
 import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.CartaDiCredito;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Tag(name = "ProfiloController", description = "Operazioni basiche per la gestione del profilo di un utente")
 public class ProfiloController {
 
     private UtenteAutenticatoRepository utenteAutenticatoRepository;
@@ -40,6 +43,7 @@ public class ProfiloController {
         this.cartaDiCreditoRepository = cartaDiCreditoRepository;
     }
 
+    @Operation(summary = "Ritorna la pagina che mostra i dettagli del profilo selezionato.")
     @GetMapping("/user/{user_id}")
     public ModelAndView infoUtente(@PathVariable("user_id") Long idUser) {
         ModelAndView maw = new ModelAndView();
@@ -58,6 +62,7 @@ public class ProfiloController {
         return maw;
     }
 
+    @Operation(summary = "Ritorna la pagina di modifica del profilo o di errore nel caso non se ne hanno le autorizzazioni.")
     @GetMapping("/protected/user/modificaProfilo")
     public ModelAndView paginaModifica() {
         ModelAndView maw = new ModelAndView("modificaProfilo");
@@ -77,6 +82,7 @@ public class ProfiloController {
         return maw;
     }
 
+    @Operation(summary = "Aggiornamento dei dati dell'utente.")
     @PostMapping("/protected/user/aggiornaProfilo")
     public RedirectView aggiornaProfilo(@ModelAttribute UtenteAutenticato user, @ModelAttribute Account a, @ModelAttribute CartaDiCredito c) {
         Optional<UtenteAutenticato> opt = utenteAutenticatoRepository.findById(user.getId());
