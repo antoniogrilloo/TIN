@@ -60,7 +60,7 @@ deploy:
   script:
     - mvn deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH == "main"'
 
 
 pages:
