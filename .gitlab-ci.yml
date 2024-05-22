@@ -25,20 +25,27 @@ variables:
   SPRING_DATASOURCE_USERNAME: springuser
   SPRING_DATASOURCE_PASSWORD: Grillo_00
 
+before_script:
+  - apt-get update -qq && apt-get install -y build-essential curl
+  - gem install bundler
+
 build:
   stage: build
+  when: manual
   script:
     - mvn compile
 
 validate:
   stage: validate
+  when: manual
   script:
     - mvn validate
-  #rules:
-   # - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
+    #rules:
+    # - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
 
 test:
   stage: test
+  when: manual
   script:
     - apt-get update && apt-get install -y default-mysql-client
     - echo "Waiting for MySQL to be ready..."
@@ -49,12 +56,13 @@ test:
     - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
     #- mvn javadoc:javadoc # Inserire istruzione per gen doc
- # rules:
- #   - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
   #  - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
 
 deploy:
   stage: deploy
+  when: manual
   script:
     - mvn deploy
   rules:
@@ -65,17 +73,22 @@ generate-swagger-docs:
   stage: docs
   image: maven:3.8.6-openjdk-18-slim
   script:
-    - apt-get update && apt-get install -y curl wget git
+    - apt-get update && apt-get install -y curl wget git npm
     - git clone -b task_9 "https://oauth2:glpat-LZtQfZ1Zic-8SqBjQX4-@gitlab.com/a.grillo22/tin.git"
     - cd tin
-    - wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
+    - npm install -g redoc-cli
     - mvn spring-boot:run &
     - sleep 30  # Tempo per avviare l'applicazione Spring Boot
     - curl -o swagger.json http://localhost:8080/v3/api-docs
-    - curl -v http://localhost:8080/swagger-ui/index.html
-    - curl -v http://localhost:8080/success
-    - head -4 swagger.json
-    - java -jar openapi-generator-cli.jar generate -i swagger.json -g html -o ./swagger-html
+    - npx @redocly/cli build-docs swagger.json -o tin/public/index.html
+    - git config --global user.email "a.grillo22@campus.unimib.it"
+    - git config --global user.name "a.grillo22"
+    - cd tin
+    - mkdir .public
+    - cp -r public/* .public
+    - git add .
+    - git commit -m "Aggiorna documentazione Swagger"
+    - git push origin task_9
   artifacts:
     paths:
-      - swagger-html
+      - tin/.public
