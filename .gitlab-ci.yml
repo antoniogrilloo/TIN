@@ -75,8 +75,8 @@ pages:
   before_script:
     - apt-get update && apt-get install -y curl wget git npm
     - npm install -g redoc-cli
-    - git clone -b task_9
-      "https://oauth2:glpat-LZtQfZ1Zic-8SqBjQX4-@gitlab.com/a.grillo22/tin.git"
+    - git clone -b $CI_COMMIT_REF_NAME
+      "https://oauth2:$TOKEN@gitlab.com/a.grillo22/tin.git"
   script:
     - cd tin
     - mvn spring-boot:run &
@@ -88,5 +88,7 @@ pages:
     - mv index.html public/index.html
   artifacts:
     paths:
-      # The folder that contains the files to be exposed at the Page URL
       - public
+  #rules:
+    #- if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/'
+    #  when: on_success

@@ -1,5 +1,7 @@
 package it.unimib.tin.TIN.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.model.Immagine;
@@ -27,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 @Controller
+@Tag(name = "VisualizzaProdottoController", description = "Operazioni per la visualizzazione dei prodotti presenti nel sistema.")
 public class VisualizzaProdottoController {
     private ProdottoRepository prodottoRepository;
 
@@ -46,6 +49,7 @@ public class VisualizzaProdottoController {
         this.immagineRepository = immagineRepository;
     }
 
+    @Operation(summary = "Ritorna la pagina che mostra i dettagli del prodotto selezionato.")
     @GetMapping("/prodotto/{idProdotto}")
     public ModelAndView infoProdotto(@PathVariable("idProdotto") Long idProdotto) {
         ModelAndView maw = new ModelAndView();
@@ -68,6 +72,7 @@ public class VisualizzaProdottoController {
         return maw;
     }
 
+    @Operation(summary = "Effettua l'eliminazione del prodotto e redireziona all'endpoint `/user/{user_id}`.")
     @PostMapping("/protected/eliminaProdotto/{idProdotto}")
     public RedirectView eliminaProdotto(@PathVariable Long idProdotto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -104,6 +109,7 @@ public class VisualizzaProdottoController {
         }
     }
 
+    @Operation(summary = "Mostra le immagini associate al prodotto.")
     @GetMapping(value = "/img/{name}")
     public ResponseEntity<Resource> getImg(@PathVariable String name){
         ByteArrayResource inputStream = null;
