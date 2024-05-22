@@ -81,6 +81,7 @@ pages:
     - cd tin
     - mvn spring-boot:run &
     - sleep 30
+    - cd ..
     - curl -o swagger.json http://localhost:8080/v3/api-docs
     - redoc-cli bundle -o index.html swagger.json
     - mkdir public
