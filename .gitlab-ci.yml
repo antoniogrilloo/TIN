@@ -30,21 +30,18 @@ before_script:
 
 build:
   stage: build
-  when: manual
   script:
     - mvn compile
 
 validate:
   stage: validate
-  when: manual
   script:
     - mvn validate
-    #rules:
-    # - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/'
 
 test:
   stage: test
-  when: manual
   script:
     - apt-get update && apt-get install -y default-mysql-client
     - echo "Waiting for MySQL to be ready..."
@@ -71,7 +68,7 @@ pages:
   stage: docs
   image: maven:3.8.6-openjdk-18-slim
   before_script:
-    - apt-get update && apt-get install -y curl wget git npm
+    - apt-get update && apt-get install -y curl npm
     - npm install -g redoc-cli
   script:
     - mvn spring-boot:run &
@@ -83,6 +80,6 @@ pages:
   artifacts:
     paths:
       - public
-  #rules:
-    #- if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/'
-    #  when: on_success
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/'
+      when: on_success
