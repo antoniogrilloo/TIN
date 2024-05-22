@@ -56,7 +56,6 @@ test:
 
 deploy:
   stage: deploy
-  when: manual
   script:
     - mvn deploy
   rules:
