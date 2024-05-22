@@ -82,9 +82,8 @@ generate-swagger-docs:
     - redoc-cli bundle -o index.html swagger.json
     - git config --global user.email "a.grillo22@campus.unimib.it"
     - git config --global user.name "a.grillo22"
-    - cd tin
     - mkdir public
-    - mv ../index.html public/index.html
+    - mv index.html public/index.html
     - mkdir .public
     - cp -r public/* .public
     - git add .
