@@ -52,8 +52,7 @@ test:
     - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(Story|Task).*/ && $CI_COMMIT_REF_NAME =~ /^Sprint.*/'
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+    - if: '$CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
 
 deploy:
   stage: deploy
@@ -61,14 +60,14 @@ deploy:
   script:
     - mvn deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^Sprint.*/'
+    - if: '$CI_COMMIT_BRANCH =~ /^Sprint.*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
 
 
 pages:
   stage: docs
   image: maven:3.8.6-openjdk-18-slim
   before_script:
-    - apt-get update && apt-get install -y curl npm
+    - apt-get update && apt-get install -y npm
     - npm install -g redoc-cli
   script:
     - mvn spring-boot:run &
@@ -81,5 +80,5 @@ pages:
     paths:
       - public
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
       when: on_success
