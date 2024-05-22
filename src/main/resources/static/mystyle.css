@@ -575,3 +575,9 @@ a{
     max-width: calc(100% - 20px);
     overflow-x: auto;
 }
+
+.inline-container{
+    display: inline-block;
+    width: 49%;
+    vertical-align: middle;
+}

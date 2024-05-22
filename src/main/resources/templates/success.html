@@ -8,44 +8,47 @@
     <link rel="stylesheet" href="/searchBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="/searchBar.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Geo:ital@0;1&family=Lexend+Peta:wght@100..900&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
+<nav class="navbar navbar-expand-lg custom-btn navbarcc">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">TIN</a>
+        <a class="btn navbar-text" href="/">Tin</a>
         <div class="d-flex align-items-center mx-auto">
-            <div class="input-group">
-                <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
-                <div class="input-group-append">
-                    <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
-                </div>
+            <div class="input-group-append">
+                <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
             </div>
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
+            <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
             <select id="categorySelect" class="form-control hidden">
                 <option value="0">Categorie</option>
                 <option th:each="category : ${categories}" th:value="${category.getNome()}" th:text="${category.getNome()}"></option>
             </select>
-            <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
-            <br>
+            <div class="input-group-append">
+                <span class="input-group-text filter-icon" id="searchBtn"><i class="fas fa-search"></i></span>
+            </div>
         </div>
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
+            <span class="mr-3 text-white">Ciao, <span class="beigino" th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
             <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
                 <button class="btn btn-link text-primary p-0" type="submit">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt text-white"></i>
                 </button>
             </form>
         </div>
     </div>
 </nav>
 
-<div id="main">
-    <h1 class="text">SUCCESSO</h1>
-</div>
 
-<div class="scrollable">
-    <div class="card">
-        <p>Operazione andata a buon fine!</p>
-    </div>
+<div class="mainErrore">
+    <h1 class="labelErrore">Successo</h1><br>
+    <label class="labelErrore2">Operazione andata a buon fine!</label>
 </div>
 
 <br><br><br><br><br>

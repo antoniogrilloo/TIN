@@ -51,7 +51,7 @@
 </nav>
 
 <div id="main">
-    <div th:switch="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()} ? true : false">
+    <div th:switch="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getAccount().getUsername} ? true : false">
         <div th:case="${true}">
             <label class="labelTitoli">Ecco il tuo profilo,&nbsp;</label>
             <label class="labelTitoli text-white" th:text="${user.getAccount().getUsername()}" ></label>
@@ -63,7 +63,7 @@
     </div>
 </div>
 <div class="padding">
-    <div th:switch="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()} ? true : false">
+    <div th:switch="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getAccount().getUsername} ? true : false">
         <div th:case="${true}">
             <label class="labelTitoli2" th:text="'Nome: ' + ${user.getNome()}"></label><br>
             <label class="labelTitoli2" th:text="'Cognome: ' + ${user.getCognome()}"></label>
@@ -79,7 +79,7 @@
             <td class="tdPercorso">
                 <a th:href="@{/prodotto/{id}(id = ${prodotto.getId()})}"><div  class="card btnHome">
                     <div th:text="${prodotto.getName()}"></div>
-                    <div class="textPerc" th:text="${#strings.trim(#strings.substring(prodotto.getDescription(), 0, 90))+ '...'}">Dati percorso</div>
+                    <div class="textPerc" th:text="${prodotto.getDescription().length() > 90 ? #strings.trim(#strings.substring(prodotto.getDescription(), 0, 90)) + '...' : #strings.trim(prodotto.getDescription())}">Dati percorso</div>
                     <div class="textPerc" style="white-space: pre;" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + '                  PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
                 </div></a>
             </td>
