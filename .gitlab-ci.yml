@@ -75,22 +75,22 @@ generate-swagger-docs:
     - apt-get update && apt-get install -y curl wget git npm
     - git clone -b task_9 "https://oauth2:glpat-LZtQfZ1Zic-8SqBjQX4-@gitlab.com/a.grillo22/tin.git"
     - cd tin
-    - npm install -g npm@latest
     - npm install -g redoc-cli
     - mvn spring-boot:run &
     - sleep 30  # Tempo per avviare l'applicazione Spring Boot
     - curl -o swagger.json http://localhost:8080/v3/api-docs
     - redoc-cli bundle -o index.html swagger.json
-    - mkdir tin/public
     - mv index.html tin/public
     - git config --global user.email "a.grillo22@campus.unimib.it"
     - git config --global user.name "a.grillo22"
     - cd tin
+    - mkdir public
+    - mv ../index.html public/index.html
     - mkdir .public
     - cp -r public/* .public
     - git add .
     - git commit -m "Aggiorna documentazione Swagger"
-    - git push origin main
+    - git push origin task_9
   artifacts:
     paths:
       - tin/.public
