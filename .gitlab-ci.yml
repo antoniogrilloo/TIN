@@ -38,7 +38,7 @@ validate:
   script:
     - mvn validate
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(story|task).*/'
+    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH =~ /^(story|task).*/'
 
 test:
   stage: test
@@ -52,7 +52,7 @@ test:
     - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint.*/'
+    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint.*/'
 
 deploy:
   stage: deploy
@@ -80,5 +80,5 @@ pages:
     paths:
       - public
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
       when: on_success
