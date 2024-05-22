@@ -79,7 +79,9 @@ generate-swagger-docs:
     - mvn spring-boot:run &
     - sleep 30  # Tempo per avviare l'applicazione Spring Boot
     - curl -o swagger.json http://localhost:8080/v3/api-docs
-    - npx @redocly/cli build-docs swagger.json -o tin/public/index.html
+    - npx @redocly/cli build-docs swagger.json -o index.html
+    - mkdir tin/public
+    - mv index.html tin/public
     - git config --global user.email "a.grillo22@campus.unimib.it"
     - git config --global user.name "a.grillo22"
     - cd tin
@@ -87,7 +89,7 @@ generate-swagger-docs:
     - cp -r public/* .public
     - git add .
     - git commit -m "Aggiorna documentazione Swagger"
-    - git push origin task_9
+    - git push origin main
   artifacts:
     paths:
       - tin/.public
