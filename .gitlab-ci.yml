@@ -54,14 +54,6 @@ test:
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint.*/'
 
-deploy:
-  stage: deploy
-  script:
-    - mvn deploy
-  rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH == "main"'
-
-
 pages:
   stage: docs
   image: maven:3.8.6-openjdk-18-slim
