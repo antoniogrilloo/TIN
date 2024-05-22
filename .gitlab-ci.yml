@@ -75,6 +75,7 @@ generate-swagger-docs:
     - apt-get update && apt-get install -y curl wget git npm
     - git clone -b task_9 "https://oauth2:glpat-LZtQfZ1Zic-8SqBjQX4-@gitlab.com/a.grillo22/tin.git"
     - cd tin
+    - npm install -g npm@latest
     - npm install -g redoc-cli
     - mvn spring-boot:run &
     - sleep 30  # Tempo per avviare l'applicazione Spring Boot
