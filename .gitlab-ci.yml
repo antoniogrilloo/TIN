@@ -86,9 +86,6 @@ generate-swagger-docs:
     - mv index.html public/index.html
     - mkdir .public
     - cp -r public/* .public
-    - git add .
-    - git commit -m "Aggiorna documentazione Swagger"
-    - git push origin task_9
   artifacts:
     paths:
-      - tin/.public
+      - .public
