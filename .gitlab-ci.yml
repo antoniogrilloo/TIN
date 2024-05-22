@@ -75,6 +75,7 @@ pages:
   before_script:
     - apt-get update && apt-get install -y curl wget git npm
     - npm install -g redoc-cli
+    - echo $TOKEN
     - git clone -b $CI_COMMIT_REF_NAME
       "https://oauth2:$TOKEN@gitlab.com/a.grillo22/tin.git"
   script:
