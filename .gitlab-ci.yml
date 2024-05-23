@@ -37,8 +37,6 @@ validate:
   stage: validate
   script:
     - mvn validate
-  rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH =~ /^(story|task).*/'
 
 test:
   stage: test
@@ -52,7 +50,7 @@ test:
     - mysql -h "$MYSQL_HOST" -u root -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
     - mvn test
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_COMMIT_BRANCH =~ /^((fix|story)|task).*/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint.*/'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^sprint.*/'
 
 pages:
   stage: docs
@@ -71,5 +69,5 @@ pages:
     paths:
       - public
   rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^sprint.*/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^sprint_/ || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^sprint.*/ '
       when: on_success
