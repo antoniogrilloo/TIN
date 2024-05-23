@@ -46,14 +46,25 @@ public class DataInitializer implements CommandLineRunner {
         if(arepo.count() == 0 && uarepo.count() == 0){
             Account a = new Account("admin", "aaa@aaa.com", "admin");
             UtenteAutenticato ua = new UtenteAutenticato("admin", "admin", new Date(), "Via Admin");
+            Account a2 = new Account("antonio", "antonio@tin.it", "antonio");
+            UtenteAutenticato ua2 = new UtenteAutenticato("antonio", "grillo", new Date(), "Via Admin");
             a.setEnabled(true);
+            a2.setEnabled(true);
             CartaDiCredito c = new CartaDiCredito("1234123412341234", "123", "Admin");
+            CartaDiCredito c2 = new CartaDiCredito("2234123412341234", "123", "Admin");
             ua.setAccount(a);
             ua.setCc(c);
+            ua2.setAccount(a2);
+            ua2.setCc(c2);
+            c.setUtente(ua);
+            c2.setUtente(ua2);
+            a2.setUser(ua2);
             c.setUtente(ua);
             a.setUser(ua);
             arepo.save(a);
+            arepo.save(a2);
             uarepo.save(ua);
+            uarepo.save(ua2);
             cartaDiCreditoRepository.save(c);
         }
 
