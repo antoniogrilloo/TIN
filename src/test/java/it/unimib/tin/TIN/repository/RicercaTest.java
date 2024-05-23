@@ -77,4 +77,51 @@ public class RicercaTest {
         assertThat(result).isNotNull();
         assertThat(result).isEmpty();
     }
+
+    @Test
+    public void testFindByKeyword_WithValidKeyword_ReturnsMatchingProducts() {
+        Prodotto product1 = new Prodotto("Prodotto1", "Descrizione del prodotto 1", 1.5);
+        Prodotto product2 = new Prodotto("Prodotto2", "Descrizione del prodotto 2", 1.5);
+        String keyword = "prodotto";
+        List<Prodotto> mockProducts = Arrays.asList(product1, product2);
+
+        // Mocking the repository behavior
+        when(prepo.findByKeyword(keyword)).thenReturn(mockProducts);
+
+        // Call the repository method
+        List<Prodotto> result = prepo.findByKeyword(keyword);
+
+        // Verify the result
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getName()).isEqualTo("Prodotto1");
+        assertThat(result.get(1).getName()).isEqualTo("Prodotto2");
+    }
+
+    @Test
+    public void testFindByKeywordAndCategory_WithValidInputs_ReturnsMatchingProducts() {
+        Prodotto product1 = new Prodotto("Prodotto1", "Descrizione del prodotto 1", 1.5);
+        Prodotto product2 = new Prodotto("Prodotto2", "Descrizione del prodotto 2", 1.5);
+        String keyword = "prodotto";
+        String nomeCategoria = "ELETTRONICA";
+        Categoria categoria = new Categoria(nomeCategoria);
+
+        product1.setCategoria(categoria);
+        product2.setCategoria(categoria);
+
+        List<Prodotto> mockProducts = Arrays.asList(product1, product2);
+
+        // Mocking the repository behavior
+        when(prepo.findByKeywordAndCategoria(keyword, categoria.getNome())).thenReturn(mockProducts);
+        when(crepo.findByNome(nomeCategoria)).thenReturn(Optional.of(categoria));
+
+        // Call the repository method
+        List<Prodotto> result = prepo.findByKeywordAndCategoria(keyword, nomeCategoria);
+
+        // Verify the result
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.get(0).getName()).isEqualTo("Prodotto1");
+        assertThat(result.get(1).getName()).isEqualTo("Prodotto2");
+    }
 }
