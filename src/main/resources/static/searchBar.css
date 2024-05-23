@@ -1,6 +1,5 @@
-.filter-icon {
-    cursor: pointer;
-    color: #333; /* Cambia il colore dell'icona se necessario */
+.input-group-text.filter-icon i {
+    color: white;
 }
 
 .hidden {
@@ -9,7 +8,6 @@
     padding: .75rem .75rem;
 }
 .input-group-text {
-    display: flex;
     align-items: center;
     padding: .75rem .75rem;
     font-size: 1rem;
@@ -18,5 +16,7 @@
     color: #212529;
     text-align: center;
     white-space: nowrap;
+    background-color: transparent;
+    border-color: transparent;
 }
 

@@ -545,12 +545,12 @@ a{
 
 .venditore-wrapper {
     display: flex;
-    align-items: center; /* Per allineare verticalmente il contenuto */
+    align-items: center;
 }
 
 .venditore-wrapper label,
 .venditore-wrapper a {
-    margin-right: 10px; /* Aggiungi spazio tra i due elementi */
+    margin-right: 10px;
 }
 
 .image-container {
