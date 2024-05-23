@@ -30,7 +30,7 @@ public class RicercaController {
 
     @Operation(summary = "Visualizza una pagina di ricerca dei prodotti per categoria. Se specificata la categoria come _request param_, nella pagina saranno visualizzati solo i prodotti di quella determinata categoria. Nel caso in cui la categoria non sia valida o non sia stata specificata, il comportamento di default sarà quello di mostrare tutti i prodotti disponibili nel sistema.")
     @GetMapping("/search")
-    public ModelAndView visualizzaRisultati(@RequestParam(name = "categoria", required = false) String categoria) {
+    public ModelAndView visualizzaRisultati(@RequestParam(name = "categoria", required = false) String categoria, @RequestParam(name = "ricerca", required = false) String keyword) {
         ModelAndView maw = new ModelAndView("visualizzaRisultati");
         List<Categoria> categories = crepo.findAll();
         maw.addObject("categories", categories);
@@ -39,16 +39,29 @@ public class RicercaController {
         Optional<List<Prodotto>> p;
         List<Prodotto> prod;
         if (categoria == null || categoria.isEmpty() || categoria.equals("0")){
-            prod = prepo.findAll();
             c = new Categoria("");
             c.setId(-1L);
+            if(keyword == null || keyword.isEmpty()){
+                prod = prepo.findAll();
+                keyword = "";
+            } else {
+                prod = prepo.findByKeyword(keyword);
+            }
         } else {
             opt = crepo.findByNome(categoria);
             c = opt.orElseGet(() -> new Categoria(""));
-            p = prepo.findByCategoria(c);
-            prod = p.orElseGet(ArrayList::new);
+            if(keyword == null || keyword.isEmpty()){
+                p = prepo.findByCategoria(c);
+                prod = p.orElseGet(ArrayList::new);
+                keyword = "";
+            } else {
+                System.out.printf(keyword);
+                prod = prepo.findByKeywordAndCategoria(keyword, c.getNome());
+            }
         }
+
         maw.addObject("prodotti", prod);
+        maw.addObject("keyword", keyword);
         maw.addObject("categoria", c);
         return maw;
     }

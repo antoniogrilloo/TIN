@@ -9,6 +9,7 @@ document.onreadystatechange = function () {
             var listItems = document.querySelectorAll('#list li');
             var url = "/search?";
             url = (categoryValue !== "0") ? url + "categoria=" + categoryValue : url;
+            url = (searchValue !== "") ? url + "&ricerca=" + searchValue : url;
             window.location.href = url;
         }
 

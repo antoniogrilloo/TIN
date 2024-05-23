@@ -49,7 +49,9 @@
     <h1 class="labelTitoli">Risultati ricerca</h1>
 </div>
 <div class="padding labelTitoli2">
-    Risultati della ricerca<span th:remove="tag" th:if='${categoria.getId() != -1}'> per categoria <span class="text-white" th:remove="tag" th:text="${categoria.nome}">nomeCategoria</span></span><span th:remove="tag" th:if='${categoria.getId() == -1}'>: Visualizzo tutti i prodotti</span>
+    Risultati della ricerca<span th:remove="tag" th:if='${categoria.getId() != -1}'> per categoria "<span class="text-white" th:remove="tag" th:text="${categoria.nome}">nomeCategoria</span>"</span>
+    <span th:remove="tag" th:if='${!keyword.equals("")}'> per parole chiave "<span class="text-white" th:remove="tag" th:text="${keyword}">keyword</span>"</span>
+    <span th:remove="tag" th:if='${categoria.getId() == -1 and keyword.equals("")}'>: Visualizzo tutti i prodotti</span>
 </div>
 <div class= "scrollable">
     <table class="tabCic" th:each="prodotto: ${prodotti}">
