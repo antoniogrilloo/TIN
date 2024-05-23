@@ -46,7 +46,7 @@ public class RegistrazioneController {
     }
 
     @Operation(summary = "Permette di visualizzare la pagina principale dell'applicazione. Se l'utente non è autenticato, verrà reindirizzato alla pagina che presenta il form di login; mentre, se fosse già autenticato, verrà reindirizzato alla pagina personalizzata per l'utente specifico.")
-    @RequestMapping("/")
+    @GetMapping("/")
     public RedirectView index(Authentication authentication, @RequestParam(name = "error", required = false) String error,
                               @RequestParam(name = "logout", required = false) String logout) {
         RedirectView mv;
@@ -62,7 +62,7 @@ public class RegistrazioneController {
     }
 
     @Operation(summary = "Ritorna la pagina di login.")
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView maw = new ModelAndView("index");
         List<Categoria> categories = crepo.findAll();
