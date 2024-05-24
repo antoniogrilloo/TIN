@@ -83,14 +83,86 @@
                     <div class="textPerc" style="white-space: pre;" th:text="'CATEGORIA: ' + ${prodotto.getCategoria().getNome().toLowerCase()} + '                  PREZZO: ' + ${prodotto.getPrice()}">Dati percorso</div>
                 </div></a>
             </td>
-            <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getNome()}">
-                <form method="POST" th:action="@{/protected/eliminaProdotto/{id_prod}(id_prod = ${prodotto.getId()})}">
-                    <button  class="deleteButt" type="submit"><i class="fa-solid fa-trash"></i></button>
-                </form>
+            <td class="tdForm" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()==user.getAccount().getUsername()}">
+                <button class="deleteButt open-AddBookDialog" th:data-id="${prodotto.getId()}" data-toggle="modal" data-target="#bookModal"><i class="fa-solid fa-trash"></i></button>
             </td>
         </tr>
     </table>
+
+    <div class="modal fade"  id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title textModelTitle" id="bookModalLabel">Attenzione!</h5>
+                </div>
+                <label class="modal-body textModelBody" id="book">Sei sicuro di voler eliminare questo prodotto?</label>
+                <div class="modal-footer">
+                    <button type="button" class="btn custom-btn text-white" data-dismiss="modal">Chiudi</button>
+                    <form id="deleteProductForm" method="GET" action="">
+                        <input type="hidden" id="bookId" name="bookId" value="">
+                        <button type="submit" class="btn custom-btn-elimination text-white" data-toggle="modal" data-target="#bookModal">Elimina</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title textModelTitle" id="successModalLabel">Eliminato</h5>
+                </div>
+                <div class="modal-body textModelBody">
+                    Il tuo prodotto è stato eliminato con successo!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn custom-btn text-white" data-dismiss="modal" id="closeModalBtn">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(document).on("show.bs.modal", "#bookModal", function (event) {
+            var button = $(event.relatedTarget);
+            var bookId = button.data('id');
+            var modal = $(this);
+            modal.find('#bookId').val(bookId);
+            var actionUrl = "/protected/eliminaProdotto/" + bookId;
+            modal.find('#deleteProductForm').attr('action', actionUrl);
+        });
+
+        $('#deleteProductForm').on('submit', function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            var actionUrl = $(this).attr('action');
+
+            $.ajax({
+                type: 'GET',
+                url: actionUrl,
+                data: formData,
+                success: function(response) {
+                    $('#successModal').modal('show');
+                },
+                error: function() {
+                    alert('There was an error submitting the form.' + actionUrl);
+                }
+            });
+        });
+
+        $('#closeModalBtn').on('click', function() {
+            location.reload();
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -54,18 +54,18 @@
     <div class="containerDestra">
         <div class="containerBottoniProfilo">
             <div class="button-wrapper">
-                <form th:action="@{/user/{id}(id = ${user.get().getId()})}" method="get">
+                <form th:action="@{/user/{id}(id = ${user.get().getId()})}" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()!='admin'}" method="get">
                     <button class="btn custom-btn-profilo btn-lg btn-block upper-button" type="submit">Profilo</button>
                 </form>
+                <form th:action="@{/protected/admin/aggiungiCategoria}" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()=='admin'}" method="get">
+                    <button class="btn custom-btn-profilo btn-lg btn-block upper-button" type="submit">Aggiungi Categorie</button>
+                </form>
             </div>
-            <form th:action="@{/protected/aggiungiProdotto}" method="get">
+            <form th:action="@{/protected/aggiungiProdotto}" method="get" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()!='admin'}">
                 <button class="btn custom-btn-profilo btn-lg lower-button left" type="submit">Aggiungi Prodotto</button>
             </form>
             <form th:action="@{/protected/user/modificaProfilo}" method="get">
                 <button class="btn custom-btn-profilo btn-lg lower-button right" type="submit">Modifica Profilo</button>
-            </form>
-            <form class="inline-form" th:action="@{/protected/admin/aggiungiCategoria}" th:if="${#authorization.expression('isAuthenticated()') and #authentication.getName()=='admin'}" method="get">
-                <button class="btn btn-primary submit" type="submit">Aggiungi Categorie</button>
             </form>
         </div>
     </div>

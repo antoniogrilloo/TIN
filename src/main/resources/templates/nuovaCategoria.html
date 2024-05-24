@@ -1,36 +1,47 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>TIN</title>
+    <title>Tin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="/mystyle.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/searchBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/mystyle.css">
     <script src="/searchBar.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Geo:ital@0;1&family=Lexend+Peta:wght@100..900&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light navbarcc">
+<nav class="navbar navbar-expand-lg custom-btn navbarcc">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">TIN</a>
+        <a class="btn navbar-text" href="/">Tin</a>
         <div class="d-flex align-items-center mx-auto">
-            <div class="input-group">
-                <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
-                <div class="input-group-append">
-                    <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
-                </div>
+            <div class="input-group-append">
+                <span class="input-group-text filter-icon"><i class="fas fa-filter"></i></span>
             </div>
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
+            <input type="text" id="searchInput" class="form-control elForm" name="Ricerca" placeholder="Ricerca">
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
             <select id="categorySelect" class="form-control hidden">
                 <option value="0">Categorie</option>
                 <option th:each="category : ${categories}" th:value="${category.getNome()}" th:text="${category.getNome()}"></option>
             </select>
-            <button class="btn btn-outline-success" style="margin-left: 5px; padding: .457rem .70rem;" type="button" id="searchBtn"><i class="fas fa-search"></i></button>
-            <br>
+            <div class="input-group-append">
+                <span class="input-group-text filter-icon" id="searchBtn"><i class="fas fa-search"></i></span>
+            </div>
         </div>
-        <div th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="mr-3">Ciao, <span th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+        <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
+            <span class="mr-3 text-white">Ciao, <span class="beigino" th:remove="tag" sec:authentication="name">thymeleaf</span></span>
+            <div style="width: 10px; height: 1px; visibility: hidden;"></div>
             <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
                 <button class="btn btn-link text-primary p-0" type="submit">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt text-white"></i>
                 </button>
             </form>
         </div>
@@ -38,12 +49,10 @@
 </nav>
 
 <div id="main">
-    <h1 class="text">Aggiungi categoria</h1><br>
+    <h1 class="labelTitoli">Aggiungi categoria</h1><br>
 </div>
 <div class="formModPercCard">
     <form class="float elForm" method="POST" th:action="@{/protected/admin/inserisciCategoria}">
-        <label class="text1Form">Categoria: </label>
-        <br><br>
         <input type="text" class="form-control elForm" name="categoria" th:required="required" placeholder="Nuova Categoria">
         <div style="font-size: small; margin: 15px 0">
             <div th:if="${param.error}" style="color: red;">
@@ -53,11 +62,8 @@
                 Categoria aggiunta!<br>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary submit">Aggiungi</button>
+        <button type="submit" class="btn custom-btn submit text-white">Aggiungi</button>
     </form>
 </div>
-
-
-
 </body>
 </html>

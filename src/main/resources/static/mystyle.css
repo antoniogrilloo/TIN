@@ -59,11 +59,16 @@ body{
 
 .custom-btn {
     background-color:  #a7beae;
-    color: #b85042;
     font-family: "Geo", sans-serif;
     font-weight: 400;
 }
 
+.custom-btn-elimination {
+    background-color:  #b85042;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+
+}
 
 body{
     background-color: #e7e8d1;
@@ -580,4 +585,25 @@ a{
     display: inline-block;
     width: 49%;
     vertical-align: middle;
+}
+
+.modal-header, .modal-footer {
+    border: none;
+}
+.modal-body {
+    padding-top: 0;
+}
+
+.textModelTitle{
+    text-transform: uppercase;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.textModelBody{
+    text-transform: uppercase;
+    font-family: "Geo", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
 }
