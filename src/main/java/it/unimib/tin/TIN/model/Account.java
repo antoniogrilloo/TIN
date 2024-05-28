@@ -76,6 +76,11 @@ public class Account {
         this.password = passwordEncoder.encode(password);
     }
 
+    public boolean checkPassword(String anotherPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(anotherPassword, password);
+    }
+
     public UtenteAutenticato getUser() {
         return user;
     }

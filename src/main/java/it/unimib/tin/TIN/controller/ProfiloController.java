@@ -14,10 +14,7 @@ import it.unimib.tin.TIN.repository.UtenteAutenticatoRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -94,5 +91,28 @@ public class ProfiloController {
         }
         utenteAutenticatoRepository.save(uorigin);
         return new RedirectView("/success");
+    }
+
+    @Operation(summary = "Visualizza il form per il cambiamento della password.")
+    @GetMapping("/protected/user/cambiaPassword")
+    public ModelAndView cambiaPassword() {
+        return new ModelAndView("cambiaPassword");
+    }
+
+    @PostMapping("/protected/user/cambiaPassword/modifica")
+    public ModelAndView modificaPassword(@RequestParam String old, @RequestParam String nuova, @RequestParam String nuova_check) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<Account> a = arepo.findByUsername(username);
+        if(a.isEmpty())
+            return new ModelAndView("error");
+        Account account = a.get();
+        if(!account.checkPassword(old))
+            return new ModelAndView("error");
+        if(!nuova.equals(nuova_check))
+            return new ModelAndView("error");
+        account.setPassword(nuova);
+        arepo.save(account);
+        return new ModelAndView("success");
     }
 }
