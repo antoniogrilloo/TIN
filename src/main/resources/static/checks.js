@@ -6,7 +6,6 @@ document.onreadystatechange = function () {
         function checkPassword(e) {
             var nuova = document.getElementById('nuova').value;
             var ripetizione = document.getElementById('nuova_check').value;
-            alert(nuova +" "+ripetizione);
             if(nuova != ripetizione){
                 e.preventDefault();
                 alert("Le nuove password inserite sono diverse!");
