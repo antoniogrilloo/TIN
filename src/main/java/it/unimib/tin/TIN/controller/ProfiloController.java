@@ -99,6 +99,7 @@ public class ProfiloController {
         return new ModelAndView("cambiaPassword");
     }
 
+    @Operation(summary = "Metodo che modifica la password nel database.")
     @PostMapping("/protected/user/cambiaPassword/modifica")
     public ModelAndView modificaPassword(@RequestParam String old, @RequestParam String nuova, @RequestParam String nuova_check) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
