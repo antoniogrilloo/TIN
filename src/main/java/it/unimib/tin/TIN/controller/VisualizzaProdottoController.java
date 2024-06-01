@@ -73,7 +73,7 @@ public class VisualizzaProdottoController {
     }
 
     @Operation(summary = "Effettua l'eliminazione del prodotto e redireziona all'endpoint `/user/{user_id}`.")
-    @PostMapping("/protected/eliminaProdotto/{idProdotto}")
+    @GetMapping("/protected/eliminaProdotto/{idProdotto}")
     public RedirectView eliminaProdotto(@PathVariable Long idProdotto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<Account> account = accountRepository.findByUsername(authentication.getName());

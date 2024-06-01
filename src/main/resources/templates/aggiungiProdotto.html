@@ -39,11 +39,10 @@
         <div th:if="${#authorization.expression('isAuthenticated()')}" class="d-flex align-items-center">
             <span class="mr-3 text-white">Ciao, <span class="beigino" th:remove="tag" sec:authentication="name">thymeleaf</span></span>
             <div style="width: 10px; height: 1px; visibility: hidden;"></div>
-            <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
-                <button class="btn btn-link text-primary p-0" type="submit">
-                    <i class="fas fa-sign-out-alt text-white"></i>
-                </button>
-            </form>
+            <button class="btn btn-link text-primary p-0" id="openModalLogOut">
+                <i class="fas fa-sign-out-alt text-white"></i>
+            </button>
+
         </div>
     </div>
 </nav>
@@ -54,7 +53,7 @@
 
 
 <div class="formModPercCard">
-    <form class="float elForm" th:action="@{/protected/aggiungiProdotto}" method="POST" enctype="multipart/form-data">
+    <form class="float elForm" id="aggiunta" th:action="@{/protected/aggiungiProdotto}" method="POST" enctype="multipart/form-data">
         <div class="nuovoProdWrapper">
             <div class="nuovoProdLeft">
                 <label class="labelTitoli2">Immagini:</label>
@@ -91,8 +90,28 @@
         <button type="submit" class="btn custom-btn submit text-white">Aggiungi prodotto</button>
         <br>
         <br>
-
     </form>
 </div>
+
+<div class="modal fade" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title textModelTitle" id="exampleModalLabel" >Log Out</h5>
+            </div>
+            <div class="modal-body textModelBody">
+                Vuoi eseguire il log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn custom-btn text-white" data-dismiss="modal">No</button>
+                <form th:action="@{/logout}" method="post" class="my-2 my-lg-0">
+                    <button type="submit" class="btn custom-btn-elimination text-white">Si</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
