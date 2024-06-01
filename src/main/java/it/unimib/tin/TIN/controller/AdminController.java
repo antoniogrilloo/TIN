@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 @Tag(name = "AdminController", description = "Operazioni che possono essere svolte soltanto da utenti admin.")
 public class AdminController {
@@ -22,7 +24,10 @@ public class AdminController {
     @Operation(summary = "Visualizza la pagina di aggiunta delle categorie.")
     @GetMapping("/protected/admin/aggiungiCategoria")
     public ModelAndView aggiungiCategoria() {
-        return new ModelAndView("nuovaCategoria");
+        ModelAndView maw = new ModelAndView("nuovaCategoria");
+        List<Categoria> categories = crepo.findAll();
+        maw.addObject("categories", categories);
+        return maw;
     }
 
     @Operation(summary = "Aggiunge nuove categorie nel sistema; funziona solo se l'utente è un admin.")
