@@ -101,19 +101,19 @@ public class ProfiloController {
 
     @Operation(summary = "Metodo che modifica la password nel database.")
     @PostMapping("/protected/user/cambiaPassword/modifica")
-    public ModelAndView modificaPassword(@RequestParam String old, @RequestParam String nuova, @RequestParam String nuova_check) {
+    public RedirectView modificaPassword(@RequestParam String old, @RequestParam String nuova, @RequestParam String nuova_check) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Optional<Account> a = arepo.findByUsername(username);
         if(a.isEmpty())
-            return new ModelAndView("error");
+            return new RedirectView("/protected/user/cambiaPassword?error");
         Account account = a.get();
         if(!account.checkPassword(old))
-            return new ModelAndView("error");
+            return new RedirectView("/protected/user/cambiaPassword?error");
         if(!nuova.equals(nuova_check))
-            return new ModelAndView("error");
+            return new RedirectView("/protected/user/cambiaPassword?error");;
         account.setPassword(nuova);
         arepo.save(account);
-        return new ModelAndView("success");
+        return new RedirectView("/protected/user/cambiaPassword?success");
     }
 }
