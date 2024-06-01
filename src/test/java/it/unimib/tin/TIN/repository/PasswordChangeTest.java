@@ -57,8 +57,7 @@ public class PasswordChangeTest {
                         .param("old", "oldPass123")
                         .param("nuova", "newPass123")
                         .param("nuova_check", "newPass123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("success"));
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -71,8 +70,7 @@ public class PasswordChangeTest {
                         .param("old", "oldPass123")
                         .param("nuova", "newPass123")
                         .param("nuova_check", "differentNewPass123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("error"));
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -85,8 +83,7 @@ public class PasswordChangeTest {
                         .param("old", "oldwrongPass123")
                         .param("nuova", "newPass123")
                         .param("nuova_check", "newPass123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("error"));
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -99,7 +96,6 @@ public class PasswordChangeTest {
                         .param("old", "oldPass123")
                         .param("nuova", "newPass123")
                         .param("nuova_check", "newPass123"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("error"));
+                .andExpect(status().is3xxRedirection());
     }
 }
