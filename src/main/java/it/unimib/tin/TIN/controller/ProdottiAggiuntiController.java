@@ -88,7 +88,7 @@ public class ProdottiAggiuntiController {
         if(img3 != null && !img3.isEmpty()){
             saveImage(img3, prodotto);
         }
-        return new RedirectView("/user/" + prodotto.getVenditore().getId());
+        return new RedirectView("/prodotto/" + prodotto.getId());
     }
 
     public void saveImage(MultipartFile img, Prodotto prodotto){
