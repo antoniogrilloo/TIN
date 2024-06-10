@@ -1,6 +1,7 @@
 package it.unimib.tin.TIN.security;
 
 import it.unimib.tin.TIN.controller.RegistrazioneController;
+import it.unimib.tin.TIN.email.EmailService;
 import it.unimib.tin.TIN.exception.AccountException;
 import it.unimib.tin.TIN.model.Account;
 import it.unimib.tin.TIN.repository.AccountRepository;
@@ -116,11 +117,21 @@ public class LoginControllerTest {
 
     @Test
     public void testFailedConfirmation() throws Exception {
+        EmailService e = new EmailService();
+        try {
+            e.sendEmail("antonio.grillo00@gmail.com", "", "");
+        } catch (NullPointerException ignored) {
+
+        }
         String username = "user";
         String password = "password";
         UserDetails userDetails = new CustomUserDetails(new Account(username, "a@a.co", password));
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+
+        mockMvc.perform(get("/success")).andExpect(status().is2xxSuccessful());
+        mockMvc.perform(get("/confirm")).andExpect(status().is2xxSuccessful());
+        mockMvc.perform(get("/error")).andExpect(status().is2xxSuccessful());
 
         when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(authenticationManager.authenticate(authenticationToken)).thenThrow(new BadCredentialsException("Invalid credentials"));

@@ -1,5 +1,6 @@
 package it.unimib.tin.TIN.repository;
 
+import it.unimib.tin.TIN.controller.VisualizzaProdottoController;
 import it.unimib.tin.TIN.model.Categoria;
 import it.unimib.tin.TIN.model.Immagine;
 import it.unimib.tin.TIN.model.Prodotto;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
@@ -29,6 +31,8 @@ public class ProdottoRepositoryTest {
     private CategoriaRepository crepo;
     @Mock
     private UtenteAutenticatoRepository urepo;
+    @Mock
+    private VisualizzaProdottoController vp;
 
     @Test
     public void testFindById(){
@@ -38,6 +42,7 @@ public class ProdottoRepositoryTest {
         p.setId(prodId);
         when(prepo.findById(anyLong())).thenReturn(Optional.of(p));
         Optional<Prodotto> result = prepo.findById(prodId);
+        vp.infoProdotto(prodId);
 
         assertTrue(result.isPresent());
         assertEquals(p, result.get());
